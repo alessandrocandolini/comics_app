@@ -7,6 +7,10 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
 
+        // apt plugin (alternatively, use built-in annotationProcessor of latest versions of android gradle plugin)
+        // https://mvnrepository.com/artifact/com.neenbedankt.gradle.plugins/android-apt
+        classpath group: 'com.neenbedankt.gradle.plugins', name: 'android-apt', version: '1.8'
+
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -15,6 +19,8 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
     }
 }
 

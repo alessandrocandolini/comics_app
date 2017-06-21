@@ -1,12 +1,13 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 25
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "comics.com.app"
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -14,6 +15,11 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            shrinkResources false
+            debuggable false
+            testCoverageEnabled false
+            multiDexEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -24,7 +30,65 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
+
+    def SUPPORT_LIBRARY_VERSION = '25.3.1'
+    compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
+
+    // https://mvnrepository.com/artifact/junit/junit
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    // https://mvnrepository.com/artifact/org.mockito/mockito-all
+    def MOCKITO_VERSION = '2.6.3'
+    testCompile group: 'org.mockito', name: 'mockito-core', version: "$MOCKITO_VERSION"
+    androidTestCompile group: 'org.mockito', name: 'mockito-android', version: "$MOCKITO_VERSION"
+
+    // https://mvnrepository.com/artifact/com.google.dagger/dagger
+    def DAGGER_VERSION ='2.11'
+    compile group: 'com.google.dagger', name: 'dagger', version: "$DAGGER_VERSION"
+    apt group: 'com.google.dagger', name: 'dagger-compiler', version: "$DAGGER_VERSION"
+    testApt group: 'com.google.dagger', name: 'dagger', version: "$DAGGER_VERSION"
+    androidTestApt group: 'com.google.dagger', name: 'dagger', version: "$DAGGER_VERSION"
+
+    // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
+    compile group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.8.1'
+
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.1'
+
+    // https://mvnrepository.com/artifact/com.squareup.retrofit2/retrofit
+    compile group: 'com.squareup.retrofit2', name: 'retrofit', version: '2.3.0'
+
+    // https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava
+    compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.1.0'
+
+    // https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxandroid
+    compile group: 'io.reactivex.rxjava2', name: 'rxandroid', version: '2.0.1'
+
+    // https://mvnrepository.com/artifact/com.squareup.retrofit2/adapter-rxjava2
+    compile group: 'com.squareup.retrofit2', name: 'adapter-rxjava2', version: '2.3.0'
+
+    // https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-gson
+    compile group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.3.0'
+
+    // https://mvnrepository.com/artifact/com.jakewharton/butterknife
+    def BUTTERKNIFE_VERSION = '8.6.0'
+    apt group: 'com.jakewharton', name: 'butterknife-compiler', version: "$BUTTERKNIFE_VERSION"
+    compile group: 'com.jakewharton', name: 'butterknife', version: "$BUTTERKNIFE_VERSION"
+
+    // https://mvnrepository.com/artifact/org.parceler/parceler-api
+    def PARCELER_VERSION = '1.1.6'
+    compile group: 'org.parceler', name: 'parceler-api', version: "$PARCELER_VERSION"
+    apt group: 'org.parceler', name: 'parceler', version: "$PARCELER_VERSION"
+
+    // wiremock for unit test (ideally also for espresso tests, require additional configuration)
+    def WIREMOCK_VERSION = '2.5.1'
+    testCompile("com.github.tomakehurst:wiremock:$WIREMOCK_VERSION") {
+        exclude group: 'asm', module: 'asm'
+        exclude group: 'org.json', module: 'json'
+        exclude group: 'org.ow2.asm', module: 'asm'
+        exclude group: 'org.apache.commons', module: 'commons-lang3'
+    }
+    testCompile group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.22'
 }
