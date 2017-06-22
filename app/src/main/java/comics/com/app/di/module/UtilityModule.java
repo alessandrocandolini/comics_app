@@ -8,7 +8,7 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Provides actual implemnetation for utilities that have an interface.
+ * Provides concrete implementation for utilities that have an interface.
  * For utilities that have just the concrete implementation class and no inyerface associated with
  * their behavior, eg, {@link comics.com.app.domain.utilities.PageCounter}, we rely on inject
  * constructor.

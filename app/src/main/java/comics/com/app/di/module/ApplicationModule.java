@@ -3,6 +3,8 @@ package comics.com.app.di.module;
 import android.app.Application;
 import android.support.annotation.NonNull;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -19,6 +21,7 @@ public class ApplicationModule {
         this.application = application;
     }
 
+    @Singleton
     @Provides
     Application providesApplication() {
         return application;

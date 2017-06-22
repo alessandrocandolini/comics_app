@@ -13,7 +13,7 @@ import dagger.Provides;
 import io.reactivex.Observable;
 
 /**
- * Provides implementations of the repositories in the business layer
+ * Provides data layer implementations of the repositories defined in the business layer
  * Created by alessandro.candolini on 22/06/2017.
  */
 @Module
