@@ -16,7 +16,7 @@ import io.reactivex.functions.Predicate;
  * Created by alessandro.candolini on 22/06/2017.
  */
 
-public class RxCalculateTotal implements CalculateTotal  {
+public class RxCalculateTotal implements CalculateTotal {
 
     @Override
     public Observable<BigDecimal> execute(@NonNull final Iterable<? extends Comic> comics) {
