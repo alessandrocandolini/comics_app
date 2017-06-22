@@ -19,6 +19,4 @@ public interface DetailedComic extends Comic {
     @Nullable
     List<String> authors();
 
-    @Nullable
-    int pageCount();
 }

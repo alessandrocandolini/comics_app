@@ -14,4 +14,6 @@ public interface Comic extends Entity {
     @Nullable
     String thumbnail();
 
+    @Nullable
+    int pageCount();
 }
