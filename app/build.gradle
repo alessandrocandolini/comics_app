@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply plugin: 'jacoco-android'
 
 android {
     compileSdkVersion 25
@@ -17,12 +18,35 @@ android {
             minifyEnabled false
             shrinkResources false
             debuggable false
-            testCoverageEnabled false
+            testCoverageEnabled true
             multiDexEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    testOptions {
+        // force to FALSE to be sure there is exception if you call android stuff without mocking
+        unitTests.returnDefaultValues = false
+    }
+    lintOptions {
+        htmlReport true
+        xmlReport true
+        showAll true
+        abortOnError false
+        warningsAsErrors true
+        quiet false
+        ignoreWarnings false
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
 }
 
 dependencies {
