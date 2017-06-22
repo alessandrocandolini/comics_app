@@ -20,12 +20,12 @@ import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 
 /**
- * Retrieve list of 100 comics.
- * THe usecase delegates the request to {@link ComicsRepository}.
+ * Implementation of {@link GetComicsFilteredByTotalAmount} that delegates to {@link
+ * ExtractItemsByTotalAmount}, using imerative style
  * Created by alessandro.candolini on 21/06/2017.
  */
 
-public class NonRxGetComicsFilteredByTotalAmount implements GetComicsFilteredByTotalAmount{
+public class NonRxGetComicsFilteredByTotalAmount implements GetComicsFilteredByTotalAmount {
 
     @NonNull
     private final ExtractItemsByTotalAmount extractItemsByTotalAmount;

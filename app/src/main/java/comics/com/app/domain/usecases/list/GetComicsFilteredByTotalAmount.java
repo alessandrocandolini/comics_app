@@ -13,8 +13,6 @@ import io.reactivex.Observable;
 import io.reactivex.functions.BiFunction;
 
 /**
- * Retrieve list of 100 comics.
- * THe usecase delegates the request to {@link ComicsRepository}.
  * Created by alessandro.candolini on 21/06/2017.
  */
 
