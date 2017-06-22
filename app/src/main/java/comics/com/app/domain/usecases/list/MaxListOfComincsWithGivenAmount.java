@@ -8,8 +8,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import comics.com.app.domain.entities.Comic;
-import comics.com.app.domain.repositories.ComicsRepository;
-import comics.com.app.domain.utilities.ExtractItemsByTotalAmount;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.functions.Function;

@@ -1,7 +1,5 @@
 package comics.com.app.domain.usecases.list;
 
-import android.support.annotation.NonNull;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -11,18 +9,12 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import comics.com.app.domain.entities.Comic;
-import comics.com.app.domain.utilities.ExtractItemsByTotalAmount;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by alessandro.candolini on 22/06/2017.

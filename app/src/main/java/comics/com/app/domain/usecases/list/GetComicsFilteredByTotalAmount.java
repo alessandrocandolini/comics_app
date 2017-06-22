@@ -5,12 +5,8 @@ import android.support.annotation.NonNull;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import comics.com.app.domain.entities.Comic;
-import comics.com.app.domain.repositories.ComicsRepository;
 import io.reactivex.Observable;
-import io.reactivex.functions.BiFunction;
 
 /**
  * Created by alessandro.candolini on 21/06/2017.

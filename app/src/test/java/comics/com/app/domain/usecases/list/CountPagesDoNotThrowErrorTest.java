@@ -15,8 +15,6 @@ import comics.com.app.domain.entities.Comic;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 
-import static io.reactivex.Observable.just;
-
 
 /**
  * Created by alessandro.candolini on 22/06/2017.

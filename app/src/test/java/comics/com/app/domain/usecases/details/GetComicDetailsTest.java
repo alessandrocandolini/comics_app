@@ -2,25 +2,17 @@ package comics.com.app.domain.usecases.details;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import java.util.Collections;
-import java.util.List;
-
 import comics.com.app.domain.entities.Comic;
 import comics.com.app.domain.entities.DetailedComic;
-import comics.com.app.domain.repositories.ComicsRepository;
 import comics.com.app.domain.repositories.DetailedComicRepository;
-import comics.com.app.domain.usecases.list.GetComics;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by alessandro.candolini on 22/06/2017.

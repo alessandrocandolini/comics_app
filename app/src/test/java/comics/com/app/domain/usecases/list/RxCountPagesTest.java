@@ -3,7 +3,6 @@ package comics.com.app.domain.usecases.list;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comics.com.app.domain.entities.Comic;
-import comics.com.app.domain.utilities.PageCounter;
 import io.reactivex.observers.TestObserver;
 
 /**

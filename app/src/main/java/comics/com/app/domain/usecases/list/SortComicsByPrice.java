@@ -1,7 +1,6 @@
 package comics.com.app.domain.usecases.list;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
 import java.util.Comparator;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import comics.com.app.domain.entities.Comic;
-import comics.com.app.domain.entities.DetailedComic;
 import comics.com.app.domain.repositories.ComicsRepository;
 import io.reactivex.Observable;
 

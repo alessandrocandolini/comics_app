@@ -2,8 +2,6 @@ package comics.com.app.domain.usecases.details;
 
 import android.support.annotation.NonNull;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import comics.com.app.domain.entities.Comic;

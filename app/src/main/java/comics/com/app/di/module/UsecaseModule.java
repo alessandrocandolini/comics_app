@@ -1,15 +1,11 @@
 package comics.com.app.di.module;
 
-import java.util.Comparator;
-
-import comics.com.app.domain.entities.Comic;
 import comics.com.app.domain.usecases.list.CalculateTotal;
 import comics.com.app.domain.usecases.list.CountPages;
 import comics.com.app.domain.usecases.list.GetComicsFilteredByTotalAmount;
 import comics.com.app.domain.usecases.list.NonRxGetComicsFilteredByTotalAmount;
 import comics.com.app.domain.usecases.list.RxCalculateTotal;
 import comics.com.app.domain.usecases.list.RxCountPages;
-import comics.com.app.domain.utilities.ComicsByPriceComparator;
 import comics.com.app.domain.utilities.ExtractItemsByTotalAmount;
 import dagger.Module;
 import dagger.Provides;

@@ -2,15 +2,10 @@ package comics.com.app.domain.usecases.list;
 
 import android.support.annotation.NonNull;
 
-import java.math.BigDecimal;
-
-import javax.inject.Inject;
-
 import comics.com.app.domain.entities.Comic;
 import io.reactivex.Observable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 
 /**
  * Similar to {@link NonRxCountPages} but using more Rx-ish stuff

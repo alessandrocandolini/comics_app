@@ -2,8 +2,6 @@ package comics.com.app.domain.repositories;
 
 import android.support.annotation.NonNull;
 
-import java.util.List;
-
 import comics.com.app.domain.entities.Comic;
 import comics.com.app.domain.entities.DetailedComic;
 import io.reactivex.Observable;

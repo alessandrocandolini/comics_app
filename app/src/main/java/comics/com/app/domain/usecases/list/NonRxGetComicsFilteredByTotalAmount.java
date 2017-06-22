@@ -1,7 +1,6 @@
 package comics.com.app.domain.usecases.list;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -9,15 +8,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import comics.com.app.domain.entities.Comic;
-import comics.com.app.domain.repositories.ComicsRepository;
 import comics.com.app.domain.utilities.ExtractItemsByTotalAmount;
-import io.reactivex.Completable;
-import io.reactivex.CompletableObserver;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 
 /**
  * Implementation of {@link GetComicsFilteredByTotalAmount} that delegates to {@link

@@ -16,8 +16,6 @@ import java.util.List;
 import comics.com.app.domain.entities.Comic;
 import comics.com.app.domain.entities.DetailedComic;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by alessandro.candolini on 22/06/2017.
  */

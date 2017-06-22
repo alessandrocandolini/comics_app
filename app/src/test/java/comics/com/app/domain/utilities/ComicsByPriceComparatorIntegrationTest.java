@@ -17,8 +17,6 @@ import java.util.List;
 import comics.com.app.domain.entities.Comic;
 import comics.com.app.domain.entities.Price;
 
-import static org.junit.Assert.*;
-
 /**
  * Integration test to sort a list using the {@link ComicsByPriceComparator}.
  * For unit tests of the comparator, see {@link ComicsByPriceComparatorTest}.

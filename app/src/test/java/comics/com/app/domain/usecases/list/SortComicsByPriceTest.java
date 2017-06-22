@@ -10,17 +10,12 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import comics.com.app.domain.entities.Comic;
-import comics.com.app.domain.entities.Price;
 import io.reactivex.observers.TestObserver;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by alessandro.candolini on 22/06/2017.
