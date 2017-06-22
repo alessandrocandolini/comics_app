@@ -1,19 +1,22 @@
 package comics.com.app.domain.repositories;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 import comics.com.app.domain.entities.Comic;
+import comics.com.app.domain.entities.DetailedComic;
 import io.reactivex.Observable;
 
 /**
  * Created by alessandro.candolini on 22/06/2017.
  */
 
-public interface ComicsRepository {
+public interface DetailedComicRepository {
 
     /**
      * @return Display a list of the first {@param count} comics
      */
-    Observable<List<? extends Comic>> comics(int count);
+    Observable<DetailedComic> comic(@NonNull Comic comic);
 
 }

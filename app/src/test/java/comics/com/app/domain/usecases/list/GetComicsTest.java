@@ -1,4 +1,4 @@
-package comics.com.app.domain.usecases.comics;
+package comics.com.app.domain.usecases.list;
 
 import org.junit.Rule;
 import org.junit.Test;
