@@ -9,19 +9,16 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import comics.com.app.domain.entities.Comic;
 import comics.com.app.domain.utilities.PageCounter;
 import io.reactivex.observers.TestObserver;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by alessandro.candolini on 22/06/2017.
  */
-public class CountPagesTest {
+public class NonRxCountPagesTest {
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
@@ -30,7 +27,7 @@ public class CountPagesTest {
     PageCounter pageCounter;
 
     @InjectMocks
-    CountPages usecase;
+    NonRxCountPages usecase;
 
     @Test
     public void test_WhenPageCounterReturnsNumber_MustReturnNumber() throws Exception {
@@ -52,7 +49,7 @@ public class CountPagesTest {
     }
 
     @Test
-    public void test_WhenUnexpectedExceptionOccursInPageCounter_MustReturnZeroWithoutErrors() throws Exception {
+    public void test_WhenUnexpectedExceptionOccursInPageCounter_MustReturnError() throws Exception {
 
         // given
         List<Comic> dummyList = new ArrayList<>();
@@ -63,10 +60,7 @@ public class CountPagesTest {
         TestObserver<Integer> testObserver = usecase.execute(dummyList).test();
 
         // then
-        testObserver.assertNoErrors();
-        testObserver.assertValueCount(1);
-        testObserver.assertValue(0);
-        testObserver.assertComplete();
-
+        testObserver.assertError(fakeError);
+        testObserver.assertValueCount(0);
     }
 }

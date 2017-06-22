@@ -16,4 +16,7 @@ public interface Comic extends Entity {
 
     @Nullable
     int pageCount();
+
+    @Nullable
+    Price price();
 }

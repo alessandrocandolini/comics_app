@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 import comics.com.app.domain.entities.Comic;
+import comics.com.app.domain.entities.DetailedComic;
 
 import static org.junit.Assert.*;
 
@@ -81,6 +82,23 @@ public class PageCounterTest {
 
         // then
         Assert.assertEquals(expectedTotalNumberOfPages,pages);
+
+    }
+
+    @Test
+    public void test_WhenListContainsOneDetailComic_MustReturnNumberOfPagesOfThatElement() throws Exception {
+
+        // given
+        int dummyNumberOfPages = 74;
+        DetailedComic fakeComic = Mockito.mock(DetailedComic.class);
+        Mockito.doReturn(dummyNumberOfPages).when(fakeComic).pageCount();
+        List<DetailedComic> fakeList = Collections.singletonList(fakeComic);
+
+        // when
+        int pages = pageCounter.countPages(fakeList);
+
+        // then
+        Assert.assertEquals(dummyNumberOfPages,pages);
 
     }
 }

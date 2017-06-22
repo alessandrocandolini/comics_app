@@ -11,9 +11,6 @@ import java.util.List;
 public interface DetailedComic extends Comic {
 
     @Nullable
-    Price price();
-
-    @Nullable
     String description();
 
     @Nullable

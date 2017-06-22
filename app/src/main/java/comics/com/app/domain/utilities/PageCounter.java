@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import comics.com.app.domain.entities.Comic;
 
 /**
@@ -12,12 +14,16 @@ import comics.com.app.domain.entities.Comic;
 
 public class PageCounter {
 
+    @Inject
+    public PageCounter() {
+    }
+
     /**
      * @param comics List of comics
      *
      * @return Total number of pages of the comics in the list
      */
-    public int countPages(@NonNull List<? extends Comic> comics) {
+    public int countPages(@NonNull Iterable<? extends Comic> comics) {
         int accumulator = 0;
         for (Comic comic : comics) {
             accumulator += comic.pageCount();
