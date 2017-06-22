@@ -96,6 +96,9 @@ dependencies {
     // https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-gson
     compile group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.3.0'
 
+    // https://mvnrepository.com/artifact/com.jakewharton.rxbinding2/rxbinding
+    compile group: 'com.jakewharton.rxbinding2', name: 'rxbinding', version: '2.0.0'
+
     // https://mvnrepository.com/artifact/com.jakewharton/butterknife
     def BUTTERKNIFE_VERSION = '8.6.0'
     apt group: 'com.jakewharton', name: 'butterknife-compiler', version: "$BUTTERKNIFE_VERSION"

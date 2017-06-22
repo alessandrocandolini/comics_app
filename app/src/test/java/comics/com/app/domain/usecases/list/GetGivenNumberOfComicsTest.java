@@ -17,30 +17,32 @@ import comics.com.app.domain.repositories.ComicsRepository;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 
+import static org.junit.Assert.*;
+
 /**
  * Created by alessandro.candolini on 22/06/2017.
  */
-public class GetComicsTest {
+public class GetGivenNumberOfComicsTest {
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Mock
-    GetGivenNumberOfComics getGivenNumberOfComics;
+    ComicsRepository repository;
 
     @InjectMocks
-    GetComics usecase;
+    GetGivenNumberOfComics usecase;
 
     @Test
-    public void test_WhenRepositoryReturnListOfComics_MustReturnTheSameList() throws Exception {
+    public void test_WhenRepositoryReturnListOfComicsAndNoCacheRefresh_MustReturnTheSameList() throws Exception {
 
         // given
         Comic fakeComic = Mockito.mock(Comic.class);
         List<Comic> fakeComics = Collections.singletonList(fakeComic);
-        Mockito.doReturn(Observable.just(fakeComics)).when(getGivenNumberOfComics).execute(ArgumentMatchers.anyInt(), ArgumentMatchers.anyBoolean());
+        Mockito.doReturn(Observable.just(fakeComics)).when(repository).comics(ArgumentMatchers.anyInt());
 
         // when
-        TestObserver<List<? extends Comic>> testObserver = usecase.execute().test();
+        TestObserver<List<? extends Comic>> testObserver = usecase.execute(100,false).test();
 
         // then
         testObserver.assertNoErrors();
@@ -51,14 +53,14 @@ public class GetComicsTest {
     }
 
     @Test
-    public void test_WhenRepositoryReturnError_MustReturnError() throws Exception {
+    public void test_WhenRepositoryReturnErrorAndNoCacheRefresh_MustReturnError() throws Exception {
 
         // given
         Throwable fakeError = Mockito.mock(Throwable.class);
-        Mockito.doReturn(Observable.error(fakeError)).when(getGivenNumberOfComics).execute(ArgumentMatchers.anyInt(), ArgumentMatchers.anyBoolean());
+        Mockito.doReturn(Observable.error(fakeError)).when(repository).comics(ArgumentMatchers.anyInt());
 
         // when
-        TestObserver<List<? extends Comic>> testObserver = usecase.execute().test();
+        TestObserver<List<? extends Comic>> testObserver = usecase.execute(100,false).test();
 
         // then
         testObserver.assertError(fakeError);
@@ -70,10 +72,10 @@ public class GetComicsTest {
     public void test_WhenRepositoryReturnEmpty_MustReturnEmpty() throws Exception {
 
         // given
-        Mockito.doReturn(Observable.empty()).when(getGivenNumberOfComics).execute(ArgumentMatchers.anyInt(), ArgumentMatchers.anyBoolean());
+        Mockito.doReturn(Observable.empty()).when(repository).comics(ArgumentMatchers.anyInt());
 
         // when
-        TestObserver<List<? extends Comic>> testObserver = usecase.execute().test();
+        TestObserver<List<? extends Comic>> testObserver = usecase.execute(100,false).test();
 
         // then
         testObserver.assertNoErrors();
@@ -81,4 +83,5 @@ public class GetComicsTest {
         testObserver.assertComplete();
 
     }
+
 }

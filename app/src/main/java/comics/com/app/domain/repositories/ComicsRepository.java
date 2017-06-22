@@ -1,8 +1,11 @@
 package comics.com.app.domain.repositories;
 
+import android.support.annotation.IntRange;
+
 import java.util.List;
 
 import comics.com.app.domain.entities.Comic;
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 
 /**
@@ -11,9 +14,12 @@ import io.reactivex.Observable;
 
 public interface ComicsRepository {
 
+    /** Clean cache (if any) */
+    Completable clean();
+
     /**
      * @return Display a list of the first {@param count} comics
      */
-    Observable<List<? extends Comic>> comics(int count);
+    Observable<List<? extends Comic>> comics(@IntRange(from = 0) int count);
 
 }
