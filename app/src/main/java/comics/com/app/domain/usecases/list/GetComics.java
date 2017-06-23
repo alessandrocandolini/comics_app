@@ -31,7 +31,7 @@ public class GetComics {
         this.getGivenNumberOfComics = getGivenNumberOfComics;
     }
 
-    public Observable<List<? extends Comic>> execute() {
+    public Observable<List<Comic>> execute() {
         return getGivenNumberOfComics.execute(NUMBER_OF_COMICS, false);
     }
 

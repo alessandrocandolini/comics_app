@@ -9,7 +9,6 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import comics.com.app.domain.entities.Comic;
-import comics.com.app.domain.entities.DetailedComic;
 import comics.com.app.domain.repositories.DetailedComicRepository;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
@@ -32,17 +31,17 @@ public class GetComicDetailsTest {
     public void test_WhenRepositoryReturnListOfComics_MustReturnTheSameList() throws Exception {
 
         // given
-        Comic dummyComic = Mockito.mock(Comic.class);
-        DetailedComic fakeDetailedComic = Mockito.mock(DetailedComic.class);
-        Mockito.doReturn(Observable.just(fakeDetailedComic)).when(stubRepository).comic(dummyComic);
+        String  dummyId = "wkhfwu";
+        Comic fakeComic = Mockito.mock(Comic.class);
+        Mockito.doReturn(Observable.just(fakeComic)).when(stubRepository).comic(dummyId);
 
         // when
-        TestObserver<DetailedComic> testObserver = usecase.execute(dummyComic).test();
+        TestObserver<Comic> testObserver = usecase.execute(dummyId).test();
 
         // then
         testObserver.assertNoErrors();
         testObserver.assertValueCount(1);
-        testObserver.assertValue(fakeDetailedComic);
+        testObserver.assertValue(fakeComic);
         testObserver.assertComplete();
 
     }
@@ -52,12 +51,11 @@ public class GetComicDetailsTest {
 
         // given
         Throwable fakeError = Mockito.mock(Throwable.class);
-        Comic dummyComic = Mockito.mock(Comic.class);
-        DetailedComic fakeDetailedComic = Mockito.mock(DetailedComic.class);
-        Mockito.doReturn(Observable.error(fakeError)).when(stubRepository).comic(dummyComic);
+        String dummyId = "ejkwheuk";
+        Mockito.doReturn(Observable.error(fakeError)).when(stubRepository).comic(dummyId);
 
         // when
-        TestObserver<DetailedComic> testObserver = usecase.execute(dummyComic).test();
+        TestObserver<Comic> testObserver = usecase.execute(dummyId).test();
 
         // then
         testObserver.assertError(fakeError);
@@ -69,11 +67,11 @@ public class GetComicDetailsTest {
     public void test_WhenRepositoryReturnEmpty_MustReturnEmpty() throws Exception {
 
         // given
-        Comic dummyComic = Mockito.mock(Comic.class);
-        Mockito.doReturn(Observable.empty()).when(stubRepository).comic(dummyComic);
+        String dummyId = "gwe";
+        Mockito.doReturn(Observable.empty()).when(stubRepository).comic(dummyId);
 
         // when
-        TestObserver<DetailedComic> testObserver = usecase.execute(dummyComic).test();
+        TestObserver<Comic> testObserver = usecase.execute(dummyId).test();
 
         // then
         testObserver.assertNoErrors();

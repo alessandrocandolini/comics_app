@@ -1,0 +1,129 @@
+package comics.com.app.presentation.list;
+
+import android.support.annotation.NonNull;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import comics.com.app.domain.entities.Comic;
+import comics.com.app.domain.usecases.list.GetComics;
+import comics.com.app.presentation.base.RxBasePresenter;
+import comics.com.app.presentation.base.ScheduleOn;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DisposableObserver;
+
+/**
+ * Created by alessandro.candolini on 22/06/2017.
+ */
+
+public class ListPresenter extends RxBasePresenter<Contract.ListView> implements Contract.ListPresenter {
+
+    @NonNull
+    private final GetComics getComics;
+
+    /** Keep track of subscription */
+    DisposableObserver<List<Comic>> disposable = null;
+
+    // we choose to inject directly the presenter class, but it's easy to have a presenter module that
+    // provides the presenter interface
+
+    @Inject
+    public ListPresenter(@NonNull ScheduleOn scheduleOn,
+                         @NonNull GetComics getComics) {
+        super(scheduleOn);
+        this.getComics = getComics;
+    }
+
+    @Override
+    public void loadComics() {
+        refresh();
+    }
+
+    @Override
+    public void refresh() {
+
+        if ( disposable != null && !disposable.isDisposed()) {
+            disposable.dispose();
+        }
+
+        disposable = getComics
+                .execute()
+                .subscribeOn(scheduleOn.io())
+                .observeOn(scheduleOn.ui())
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(@io.reactivex.annotations.NonNull Disposable disposable) throws Exception {
+                        doOnViewAttached(new OnViewAttachedAction<Contract.ListView>() {
+                            @Override
+                            public void execute(@NonNull Contract.ListView listView) {
+                                listView.showLoading();
+                                listView.hideError();
+                                listView.hideGenericError();
+                            }
+                        });
+                    }
+                })
+                .doFinally(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        doOnViewAttached(new OnViewAttachedAction<Contract.ListView>() {
+                            @Override
+                            public void execute(@NonNull Contract.ListView listView) {
+                                listView.hideLoading();
+                            }
+                        });
+                    }
+                })
+                .subscribeWith(new DisposableObserver<List<Comic>>() {
+                    @Override
+                    public void onNext(@io.reactivex.annotations.NonNull final List<Comic> comics) {
+                        doOnViewAttached(new OnViewAttachedAction<Contract.ListView>() {
+                            @Override
+                            public void execute(@NonNull Contract.ListView listView) {
+                                if ( comics.isEmpty() ) {
+                                    listView.hideComics();
+                                    listView.showNoComics();
+                                    listView.hideNumberOfComics();
+                                } else {
+                                    listView.showComics(comics);
+                                    listView.hideNoComics();
+                                    listView.showNumberOfComics(Integer.toString(comics.size())); // this conversation in principle can be done earlier in background
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.annotations.NonNull Throwable e) {
+                        doOnViewAttached(new OnViewAttachedAction<Contract.ListView>() {
+                            @Override
+                            public void execute(@NonNull Contract.ListView listView) {
+                                listView.showGenericError();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+        addToAutoUnsubscribe(disposable);
+    }
+
+    @Override
+    public void onComicClick(@NonNull final Comic comic) {
+        if ( comic.id() != null ) {
+            doOnViewAttached(new OnViewAttachedAction<Contract.ListView>() {
+                @Override
+                public void execute(@NonNull Contract.ListView listView) {
+                    listView.goToDetails(comic.id());
+                }
+            });
+        }
+    }
+}

@@ -14,10 +14,10 @@ import android.support.annotation.NonNull;
 public interface Presenter<V extends View> {
 
     /** Attach view to presenter */
-    void bind(@NonNull V view);
+    void attach(@NonNull V view);
 
     /** Detatch view */
-    void unbind();
+    void detach();
 
     /** Abort long-lasting operations */
     void abort();

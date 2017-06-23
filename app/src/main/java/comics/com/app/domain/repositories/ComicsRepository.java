@@ -20,6 +20,6 @@ public interface ComicsRepository {
     /**
      * @return Display a list of the first {@param count} comics
      */
-    Observable<List<? extends Comic>> comics(@IntRange(from = 0) int count);
+    Observable<List<Comic>> comics(@IntRange(from = 0) int count);
 
 }

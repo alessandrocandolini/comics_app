@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.List;
 
 import comics.com.app.domain.entities.Comic;
-import comics.com.app.domain.entities.DetailedComic;
 
 /**
  * Created by alessandro.candolini on 22/06/2017.
@@ -88,9 +87,9 @@ public class PageCounterTest {
 
         // given
         int dummyNumberOfPages = 74;
-        DetailedComic fakeComic = Mockito.mock(DetailedComic.class);
+        Comic fakeComic = Mockito.mock(Comic.class);
         Mockito.doReturn(dummyNumberOfPages).when(fakeComic).pageCount();
-        List<DetailedComic> fakeList = Collections.singletonList(fakeComic);
+        List<Comic> fakeList = Collections.singletonList(fakeComic);
 
         // when
         int pages = pageCounter.countPages(fakeList);

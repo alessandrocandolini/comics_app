@@ -2,7 +2,6 @@ package comics.com.app.domain.usecases.list;
 
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ class GetGivenNumberOfComics {
         this.comicsRepository = comicsRepository;
     }
 
-    public Observable<List<? extends Comic>> execute(@IntRange(from = 0) int number, boolean refresh) {
+    public Observable<List<Comic>> execute(@IntRange(from = 0) int number, boolean refresh) {
         if ( refresh ) {
             return comicsRepository.clean().andThen(comicsRepository.comics(number));
         } else {

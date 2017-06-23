@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import comics.com.app.domain.entities.Comic;
-import comics.com.app.domain.entities.DetailedComic;
 import comics.com.app.domain.repositories.ComicsRepository;
 import comics.com.app.domain.repositories.DetailedComicRepository;
 import dagger.Module;
@@ -30,7 +29,7 @@ public class RepositoryModule {
             }
 
             @Override
-            public Observable<List<? extends Comic>> comics(@IntRange(from = 0) int count) {
+            public Observable<List<Comic>> comics(@IntRange(from = 0) int count) {
                 return Observable.empty();
             }
         }; // TODO replace this mock with real data
@@ -41,7 +40,7 @@ public class RepositoryModule {
         return new DetailedComicRepository() {
 
             @Override
-            public Observable<DetailedComic> comic(@NonNull Comic comic) {
+            public Observable<Comic> comic(@NonNull String id) {
                 return Observable.empty();
             }
         }; // TODO replace this mock with real data

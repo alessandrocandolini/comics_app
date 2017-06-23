@@ -3,7 +3,6 @@ package comics.com.app.presentation.base;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 
 /**
  * Base implementation of {@link Presenter}
@@ -17,13 +16,13 @@ public class BasePresenter<V extends View> implements Presenter<V> {
 
     @CallSuper
     @Override
-    public void bind(@NonNull V view) {
+    public void attach(@NonNull V view) {
         this.view = view;
     }
 
     @CallSuper
     @Override
-    public void unbind() {
+    public void detach() {
         this.view = null;
     }
 
@@ -34,5 +33,22 @@ public class BasePresenter<V extends View> implements Presenter<V> {
 
     boolean isBound() {
         return view != null;
+    }
+
+    /**
+     * Wraps the if-view-attached check and protects the view from being exposed in the subclasses.
+     * It also allows to add logic for what to do when view is not attached.
+     *
+     * @param action
+     */
+    protected void doOnViewAttached(@NonNull OnViewAttachedAction<V> action) {
+        if (view != null) {
+            action.execute(view);
+        }
+    }
+
+
+    public interface OnViewAttachedAction<View> {
+        void execute(@NonNull View view);
     }
 }

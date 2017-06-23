@@ -53,7 +53,7 @@ public class RxBasePresenterTest {
         presenter.addToAutoUnsubscribe(observer);
 
         // when
-        presenter.unbind();
+        presenter.detach();
 
         // then
         Assert.assertFalse(observer.isDisposed());

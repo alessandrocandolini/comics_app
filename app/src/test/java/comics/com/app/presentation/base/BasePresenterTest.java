@@ -46,7 +46,7 @@ public class BasePresenterTest {
         View dummyView = Mockito.mock(View.class);
 
         // when
-        presenter.bind(dummyView);
+        presenter.attach(dummyView);
 
         // then
         Assert.assertTrue(presenter.isBound());
@@ -60,8 +60,8 @@ public class BasePresenterTest {
         View dummyView = Mockito.mock(View.class);
 
         // when
-        presenter.bind(dummyView);
-        presenter.unbind();
+        presenter.attach(dummyView);
+        presenter.detach();
 
         // then
         Assert.assertFalse(presenter.isBound());

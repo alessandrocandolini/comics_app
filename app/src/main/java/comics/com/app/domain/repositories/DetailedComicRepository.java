@@ -3,7 +3,6 @@ package comics.com.app.domain.repositories;
 import android.support.annotation.NonNull;
 
 import comics.com.app.domain.entities.Comic;
-import comics.com.app.domain.entities.DetailedComic;
 import io.reactivex.Observable;
 
 /**
@@ -15,6 +14,6 @@ public interface DetailedComicRepository {
     /**
      * @return Display a list of the first {@param count} comics
      */
-    Observable<DetailedComic> comic(@NonNull Comic comic);
+    Observable<Comic> comic(@NonNull String id);
 
 }

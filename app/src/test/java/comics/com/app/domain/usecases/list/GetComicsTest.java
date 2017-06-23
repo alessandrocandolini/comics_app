@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.List;
 
 import comics.com.app.domain.entities.Comic;
-import comics.com.app.domain.repositories.ComicsRepository;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 
@@ -40,7 +39,7 @@ public class GetComicsTest {
         Mockito.doReturn(Observable.just(fakeComics)).when(getGivenNumberOfComics).execute(ArgumentMatchers.anyInt(), ArgumentMatchers.anyBoolean());
 
         // when
-        TestObserver<List<? extends Comic>> testObserver = usecase.execute().test();
+        TestObserver<List<Comic>> testObserver = usecase.execute().test();
 
         // then
         testObserver.assertNoErrors();
@@ -58,7 +57,7 @@ public class GetComicsTest {
         Mockito.doReturn(Observable.error(fakeError)).when(getGivenNumberOfComics).execute(ArgumentMatchers.anyInt(), ArgumentMatchers.anyBoolean());
 
         // when
-        TestObserver<List<? extends Comic>> testObserver = usecase.execute().test();
+        TestObserver<List<Comic>> testObserver = usecase.execute().test();
 
         // then
         testObserver.assertError(fakeError);
@@ -73,7 +72,7 @@ public class GetComicsTest {
         Mockito.doReturn(Observable.empty()).when(getGivenNumberOfComics).execute(ArgumentMatchers.anyInt(), ArgumentMatchers.anyBoolean());
 
         // when
-        TestObserver<List<? extends Comic>> testObserver = usecase.execute().test();
+        TestObserver<List<Comic>> testObserver = usecase.execute().test();
 
         // then
         testObserver.assertNoErrors();

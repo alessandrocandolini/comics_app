@@ -17,8 +17,6 @@ import comics.com.app.domain.repositories.ComicsRepository;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by alessandro.candolini on 22/06/2017.
  */
@@ -42,7 +40,7 @@ public class GetGivenNumberOfComicsTest {
         Mockito.doReturn(Observable.just(fakeComics)).when(repository).comics(ArgumentMatchers.anyInt());
 
         // when
-        TestObserver<List<? extends Comic>> testObserver = usecase.execute(100,false).test();
+        TestObserver<List<Comic>> testObserver = usecase.execute(100,false).test();
 
         // then
         testObserver.assertNoErrors();
@@ -60,7 +58,7 @@ public class GetGivenNumberOfComicsTest {
         Mockito.doReturn(Observable.error(fakeError)).when(repository).comics(ArgumentMatchers.anyInt());
 
         // when
-        TestObserver<List<? extends Comic>> testObserver = usecase.execute(100,false).test();
+        TestObserver<List<Comic>> testObserver = usecase.execute(100,false).test();
 
         // then
         testObserver.assertError(fakeError);
@@ -75,7 +73,7 @@ public class GetGivenNumberOfComicsTest {
         Mockito.doReturn(Observable.empty()).when(repository).comics(ArgumentMatchers.anyInt());
 
         // when
-        TestObserver<List<? extends Comic>> testObserver = usecase.execute(100,false).test();
+        TestObserver<List<Comic>> testObserver = usecase.execute(100,false).test();
 
         // then
         testObserver.assertNoErrors();
