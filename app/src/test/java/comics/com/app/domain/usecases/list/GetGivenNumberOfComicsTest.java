@@ -14,6 +14,7 @@ import java.util.List;
 
 import comics.com.app.domain.entities.Comic;
 import comics.com.app.domain.repositories.ComicsRepository;
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 
@@ -78,6 +79,26 @@ public class GetGivenNumberOfComicsTest {
         // then
         testObserver.assertNoErrors();
         testObserver.assertNoValues();
+        testObserver.assertComplete();
+
+    }
+
+    @Test
+    public void test_WhenRepositoryReturnResultsAndCacheCleanedSuccessully_MustReturnResults() throws Exception {
+
+        // given
+        Comic fakeComic = Mockito.mock(Comic.class);
+        List<Comic> fakeComics = Collections.singletonList(fakeComic);
+        Mockito.doReturn(Observable.just(fakeComics)).when(repository).comics(ArgumentMatchers.anyInt());
+        Mockito.doReturn(Completable.complete()).when(repository).clean();
+
+        // when
+        TestObserver<List<Comic>> testObserver = usecase.execute(100,true).test();
+
+        // then
+        testObserver.assertNoErrors();
+        testObserver.assertValueCount(1);
+        testObserver.assertValue(fakeComics);
         testObserver.assertComplete();
 
     }

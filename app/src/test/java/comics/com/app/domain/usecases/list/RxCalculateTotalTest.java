@@ -27,7 +27,7 @@ public class RxCalculateTotalTest {
     RxCalculateTotal usecase;
 
     @Test
-    public void test_WhenComicsHavePages_MustReturnSumOfAllThePages() throws Exception {
+    public void test_WhenComicsHavePrices_MustReturnTotal() throws Exception {
 
         // given
 
@@ -56,6 +56,37 @@ public class RxCalculateTotalTest {
         testObserver.assertNoErrors();
         testObserver.assertValueCount(1);
         testObserver.assertValue(expectedTotal);
+        testObserver.assertComplete();
+
+    }
+
+    @Test
+    public void test_WhenSomeComicsHaveNoPrice_MustReturnTotalWithoutThoseItems() throws Exception {
+
+        // given
+
+        BigDecimal fakeAmount = BigDecimal.valueOf(5);
+
+        Comic fakeComic1 = Mockito.mock(Comic.class);
+        Comic fakeComic2 = Mockito.mock(Comic.class);
+        Price fakePrice1 = Mockito.mock(Price.class);
+        Price fakePrice2 = Mockito.mock(Price.class);
+        Mockito.doReturn(fakePrice1).when(fakeComic1).price();
+        Mockito.doReturn(fakePrice2).when(fakeComic2).price();
+
+        Mockito.doReturn(fakeAmount).when(fakePrice1).amount();
+
+        List<Comic> list = new ArrayList<>();
+        list.add(fakeComic1);
+        list.add(fakeComic2);
+
+        // when
+        TestObserver<BigDecimal> testObserver = usecase.execute(list).test();
+
+        // then
+        testObserver.assertNoErrors();
+        testObserver.assertValueCount(1);
+        testObserver.assertValue(fakeAmount);
         testObserver.assertComplete();
 
     }

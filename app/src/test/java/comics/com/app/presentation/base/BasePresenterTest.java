@@ -1,5 +1,7 @@
 package comics.com.app.presentation.base;
 
+import android.support.annotation.NonNull;
+
 import junit.framework.Assert;
 
 import org.junit.Rule;
@@ -67,4 +69,5 @@ public class BasePresenterTest {
         Assert.assertFalse(presenter.isBound());
 
     }
+
 }
