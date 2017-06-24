@@ -1,6 +1,7 @@
 package comics.com.app.di.component;
 
 import comics.com.app.di.module.ActivityModule;
+import comics.com.app.di.module.PresenterModule;
 import comics.com.app.di.scope.ActivityScope;
 import dagger.Subcomponent;
 
@@ -11,7 +12,8 @@ import dagger.Subcomponent;
 @ActivityScope
 @Subcomponent(
         modules = {
-                ActivityModule.class
+                ActivityModule.class,
+                PresenterModule.class
         }
 )
 public interface ActivityComponent {

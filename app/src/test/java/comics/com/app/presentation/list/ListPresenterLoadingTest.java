@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -46,10 +45,10 @@ public class ListPresenterLoadingTest {
     );
 
     @InjectMocks
-    ListPresenter presenter;
+    ListPresenterImpl presenter;
 
     @Mock
-    Contract.ListView mockedView;
+    ListView mockedView;
 
     TestScheduler testScheduler = new TestScheduler();
 

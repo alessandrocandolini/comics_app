@@ -38,8 +38,6 @@ public class BasePresenter<V extends View> implements Presenter<V> {
     /**
      * Wraps the if-view-attached check and protects the view from being exposed in the subclasses.
      * It also allows to add logic for what to do when view is not attached.
-     *
-     * @param action
      */
     protected void doOnViewAttached(@NonNull OnViewAttachedAction<V> action) {
         if (view != null) {

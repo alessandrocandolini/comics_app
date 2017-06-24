@@ -4,6 +4,10 @@ import javax.inject.Singleton;
 
 import comics.com.app.di.module.ActivityModule;
 import comics.com.app.di.module.ApplicationModule;
+import comics.com.app.di.module.RepositoryModule;
+import comics.com.app.di.module.ThreadModule;
+import comics.com.app.di.module.UsecaseModule;
+import comics.com.app.di.module.UtilityModule;
 import dagger.Component;
 
 /**
@@ -11,7 +15,11 @@ import dagger.Component;
  */
 @Singleton
 @Component(modules = {
-        ApplicationModule.class
+        ApplicationModule.class,
+        RepositoryModule.class,
+        UsecaseModule.class,
+        ThreadModule.class,
+        UtilityModule.class
 })
 public interface ApplicationComponent {
 

@@ -14,7 +14,7 @@ import comics.com.app.di.module.ApplicationModule;
 
 public class BaseApplication extends Application {
 
-    /** Kepp track of the application component */
+    /** Keep track of the application component */
     @Nullable
     private ApplicationComponent applicationComponent;
 

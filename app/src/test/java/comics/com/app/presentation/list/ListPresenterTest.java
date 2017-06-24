@@ -1,12 +1,7 @@
 package comics.com.app.presentation.list;
 
-import android.support.annotation.NonNull;
-
-import junit.framework.Assert;
-
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.internal.ComparisonCriteria;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -15,21 +10,14 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import comics.com.app.domain.entities.Comic;
 import comics.com.app.domain.usecases.list.GetComics;
 import comics.com.app.presentation.base.ScheduleOn;
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by alessandro.candolini on 23/06/2017.
@@ -50,10 +38,10 @@ public class ListPresenterTest {
     );
 
     @InjectMocks
-    ListPresenter presenter;
+    ListPresenterImpl presenter;
 
     @Mock
-    Contract.ListView mockedView;
+    ListView mockedView;
 
     @Test
     public void test_WhenViewAttachedAndUseCaseReturnsItems_MustShowItems() throws Exception {
