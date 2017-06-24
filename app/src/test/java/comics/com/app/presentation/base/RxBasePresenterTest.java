@@ -77,4 +77,21 @@ public class RxBasePresenterTest {
 
     }
 
+    @Test
+    public void test_WhenAddedToAutoUnsubscribeAndAlreadyDisposed_MustIgnoreUNRegisteredSubscriptionsTheSecondTime() throws Exception {
+
+        // given
+        Observable<String> fakeObservable = Observable.just("dwjkwui");
+        TestObserver observer = fakeObservable.test();
+
+        // when
+        presenter.abort();
+        presenter.abort();
+
+        // then
+        Assert.assertFalse(observer.isDisposed());
+
+
+    }
+
 }

@@ -2,6 +2,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'jacoco-android'
 
+jacoco {
+    toolVersion = "0.7.9"
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
@@ -27,6 +31,24 @@ android {
     testOptions {
         // force to FALSE to be sure there is exception if you call android stuff without mocking
         unitTests.returnDefaultValues = false
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
+    jacocoAndroidUnitTestReport {
+        csv.enabled false
+        html.enabled true
+        xml.enabled true
+        excludes += [ // exclude dagger classes
+                      '**/*_MembersInjector.class',
+                      '**/Dagger*Component.class',
+                      '**/Dagger*Component$Builder.class',
+                      '**/module/*Module.class',
+                      '**/*Module_*Factory.class',
+                      '**/*_*Factory.class'
+        ]
     }
     lintOptions {
         htmlReport true
@@ -69,7 +91,7 @@ dependencies {
     androidTestCompile group: 'org.mockito', name: 'mockito-android', version: "$MOCKITO_VERSION"
 
     // https://mvnrepository.com/artifact/com.google.dagger/dagger
-    def DAGGER_VERSION ='2.11'
+    def DAGGER_VERSION = '2.11'
     compile group: 'com.google.dagger', name: 'dagger', version: "$DAGGER_VERSION"
     apt group: 'com.google.dagger', name: 'dagger-compiler', version: "$DAGGER_VERSION"
     testApt group: 'com.google.dagger', name: 'dagger', version: "$DAGGER_VERSION"
