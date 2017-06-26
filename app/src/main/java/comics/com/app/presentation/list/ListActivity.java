@@ -62,7 +62,7 @@ public class ListActivity extends BaseActivity implements ListView {
         recyclerView.setAdapter(adapter);
         adapter.setClickListener(new ListAdapter.ClickListener() {
             @Override
-            public void onClick(@NonNull final Comic comic) {
+            public void onClick(@NonNull final ListComic comic) {
                 presenter.onComicClick(comic);
             }
         });
@@ -160,7 +160,7 @@ public class ListActivity extends BaseActivity implements ListView {
     }
 
     @Override
-    public void showComics(@NonNull List<Comic> comics) {
+    public void showComics(@NonNull List<ListComic> comics) {
         recyclerView.setVisibility(View.VISIBLE);
         adapter.setComics(comics);
     }

@@ -38,6 +38,9 @@ public class ListPresenterLoadingTest {
     GetComics stubGetComics;
 
     @Spy
+    ListComicViewMapper mapper;
+
+    @Spy
     ScheduleOn scheduleOn = new ScheduleOn(
             Schedulers.trampoline(),
             Schedulers.trampoline(),

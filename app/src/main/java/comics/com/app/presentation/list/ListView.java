@@ -18,7 +18,7 @@ public interface ListView extends LoadingView {
 
     void hideNoComics();
 
-    void showComics(@NonNull List<Comic> comics);
+    void showComics(@NonNull List<ListComic> comics);
 
     void hideComics();
 

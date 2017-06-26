@@ -31,6 +31,9 @@ public class ListPresenterTest {
     GetComics stubGetComics;
 
     @Spy
+    ListComicViewMapper mapper;
+
+    @Spy
     ScheduleOn scheduleOn = new ScheduleOn(
             Schedulers.trampoline(),
             Schedulers.trampoline(),
@@ -49,14 +52,17 @@ public class ListPresenterTest {
         // given
         Comic fakeComic = Mockito.mock(Comic.class);
         List<Comic> fakeComics = Collections.singletonList(fakeComic);
+        ListComic fakeListComic = Mockito.mock(ListComic.class);
+        List<ListComic> fakeListComics = Collections.singletonList(fakeListComic);
         Mockito.doReturn(Observable.just(fakeComics)).when(stubGetComics).execute();
+        Mockito.doReturn(fakeListComics).when(mapper).apply(fakeComics);
 
         // when
         presenter.attach(mockedView);
         presenter.loadComics();
 
         // then
-        Mockito.verify(mockedView, Mockito.times(1)).showComics(fakeComics);
+        Mockito.verify(mockedView, Mockito.times(1)).showComics(fakeListComics);
         Mockito.verify(mockedView, Mockito.times(0)).showGenericError();
         Mockito.verify(mockedView, Mockito.times(0)).showNoComics();
         Mockito.verify(mockedView, Mockito.times(0)).showError(ArgumentMatchers.anyString());
@@ -74,7 +80,7 @@ public class ListPresenterTest {
         presenter.loadComics();
 
         // then
-        Mockito.verify(mockedView, Mockito.times(0)).showComics(ArgumentMatchers.<Comic>anyList());
+        Mockito.verify(mockedView, Mockito.times(0)).showComics(ArgumentMatchers.<ListComic>anyList());
         Mockito.verify(mockedView, Mockito.times(0)).showGenericError();
         Mockito.verify(mockedView, Mockito.times(1)).showNoComics();
         Mockito.verify(mockedView, Mockito.times(0)).showError(ArgumentMatchers.anyString());
@@ -92,7 +98,7 @@ public class ListPresenterTest {
         presenter.loadComics();
 
         // then
-        Mockito.verify(mockedView, Mockito.times(0)).showComics(ArgumentMatchers.<Comic>anyList());
+        Mockito.verify(mockedView, Mockito.times(0)).showComics(ArgumentMatchers.<ListComic>anyList());
         Mockito.verify(mockedView, Mockito.times(1)).showGenericError();
         Mockito.verify(mockedView, Mockito.times(0)).showNoComics();
         Mockito.verify(mockedView, Mockito.times(0)).showError(ArgumentMatchers.anyString());

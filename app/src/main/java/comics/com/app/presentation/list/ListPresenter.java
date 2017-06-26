@@ -14,5 +14,5 @@ public interface ListPresenter extends comics.com.app.presentation.base.Presente
 
     void refresh();
 
-    void onComicClick(@NonNull Comic comic);
+    void onComicClick(@NonNull ListComic comic);
 }

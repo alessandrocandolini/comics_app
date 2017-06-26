@@ -66,17 +66,6 @@ public class ListActivityTest {
     }
 
     @Test
-    public void test_WhenLaunchingActivity_MustDisplaySpinner() {
-
-        // when
-        activityTestRule.launchActivity(null);
-
-        // then
-        onView(withId(R.id.progress_indicator)).check(matches(isDisplayed()));
-    }
-
-
-    @Test
     public void test_WhenShowingError_MustDisplayError() {
 
         // given
@@ -87,19 +76,6 @@ public class ListActivityTest {
 
         // then
         onView(withId(R.id.error)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void test_WhenShowingProgressLoading_MustDisplayProgressLoading() {
-
-        // given
-        activityTestRule.launchActivity(null);
-
-        // when
-        activityTestRule.getActivity().showLoading();
-
-        // then
-        onView(withId(R.id.progress_indicator)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -119,10 +95,10 @@ public class ListActivityTest {
     public void test_WhenShowingResults_MustDisplayResults() {
 
         // given
-        Comic fakeComic = Mockito.mock(Comic.class);
+        ListComic fakeComic = Mockito.mock(ListComic.class);
         String fakeTitle = "frrwewe2";
-        Mockito.doReturn(fakeTitle).when(fakeComic).title();
-        final List<Comic> fakeComics = Collections.singletonList(fakeComic);
+        Mockito.doReturn(fakeTitle).when(fakeComic).getTitle();
+        final List<ListComic> fakeComics = Collections.singletonList(fakeComic);
 
         activityTestRule.launchActivity(null);
 
@@ -135,7 +111,7 @@ public class ListActivityTest {
         });
 
         // then
-        onView(withText(fakeComic.title())).check(matches(isDisplayed()));
+        onView(withText(fakeComic.getTitle())).check(matches(isDisplayed()));
 
     }
 

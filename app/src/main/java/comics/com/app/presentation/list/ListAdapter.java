@@ -10,18 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import comics.com.app.R;
-import comics.com.app.domain.entities.Comic;
-import comics.com.app.domain.entities.Price;
 
 /**
  * Created by alessandro.candolini on 25/06/2017.
@@ -30,7 +26,7 @@ import comics.com.app.domain.entities.Price;
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     @Nullable
-    private List<Comic> comics;
+    private List<ListComic> comics;
 
     @Nullable
     private ClickListener clickListener;
@@ -43,7 +39,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         this.clickListener = clickListener;
     }
 
-    public void setComics(@Nullable List<Comic> comics) {
+    public void setComics(@Nullable List<ListComic> comics) {
         this.comics = comics;
         notifyDataSetChanged();
     }
@@ -56,18 +52,18 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Comic comic = comics.get(position);
-        holder.titleView.setText(comic.title());
-        final String priceString;
-        final Price price = comic.price();
-        if ( price != null) { // TODO move to presenter
-            priceString = price.printPrice();
-        } else {
-            priceString = "";
-        }
-        holder.priceView.setText(priceString);
+        final ListComic comic = comics.get(position);
+        holder.titleView.setText(comic.getTitle());
+//        final String priceString;
+//        final Price price = comic.price();
+//        if ( price != null) { // TODO move to presenter
+//            priceString = price.printPrice();
+//        } else {
+//            priceString = "";
+//        }
+        holder.priceView.setText(comic.getPrice());
         Glide.with(holder.thumbNailView.getContext())
-                .load(comic.thumbnail())
+                .load(comic.getThumbnail())
                 .fitCenter()
                 .crossFade()
                 .into(holder.thumbNailView);
@@ -110,7 +106,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     }
 
     public interface ClickListener {
-        void onClick(@NonNull Comic comic);
+        void onClick(@NonNull ListComic comic);
     }
 
 }

@@ -4,6 +4,7 @@ import android.support.annotation.VisibleForTesting;
 
 import comics.com.app.domain.usecases.list.GetComics;
 import comics.com.app.presentation.base.ScheduleOn;
+import comics.com.app.presentation.list.ListComicViewMapper;
 import comics.com.app.presentation.list.ListPresenter;
 import comics.com.app.presentation.list.ListPresenterImpl;
 import dagger.Module;
@@ -19,9 +20,10 @@ public class PresenterModule {
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     @Provides
     public ListPresenter providesLoginPresenter(ScheduleOn scheduleOn,
-                                         GetComics getComics
+                                         GetComics getComics,
+                                                ListComicViewMapper listComicViewMapper
     ) {
-        return new ListPresenterImpl(scheduleOn, getComics);
+        return new ListPresenterImpl(scheduleOn, getComics,listComicViewMapper);
     }
 
 

@@ -5,7 +5,6 @@ import android.support.annotation.VisibleForTesting;
 
 import java.util.List;
 
-import comics.com.app.domain.entities.Comic;
 import comics.com.app.domain.usecases.list.GetComics;
 import comics.com.app.presentation.base.RxBasePresenter;
 import comics.com.app.presentation.base.ScheduleOn;
@@ -24,12 +23,18 @@ public class ListPresenterImpl extends RxBasePresenter<ListView> implements List
 
     /** Keep track of subscription */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    DisposableObserver<List<Comic>> disposable = null;
+    DisposableObserver<List<ListComic>> disposable = null;
+
+    @NonNull
+    private final ListComicViewMapper listComicViewMapper;
 
     public ListPresenterImpl(@NonNull ScheduleOn scheduleOn,
-                         @NonNull GetComics getComics) {
+                             @NonNull GetComics getComics,
+                             @NonNull ListComicViewMapper listComicViewMapper
+                             ) {
         super(scheduleOn);
         this.getComics = getComics;
+        this.listComicViewMapper = listComicViewMapper;
     }
 
     @Override
@@ -40,17 +45,19 @@ public class ListPresenterImpl extends RxBasePresenter<ListView> implements List
     @Override
     public void refresh() {
 
-        if ( disposable != null && !disposable.isDisposed()) {
+        if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
         }
 
         disposable = getComics
                 .execute()
+                .map(listComicViewMapper)
                 .subscribeOn(scheduleOn.io())
                 .observeOn(scheduleOn.ui())
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
-                    public void accept(@io.reactivex.annotations.NonNull Disposable disposable) throws Exception {
+                    public void accept(@io.reactivex.annotations.NonNull Disposable disposable) throws
+                            Exception {
                         doOnViewAttached(new OnViewAttachedAction<ListView>() {
                             @Override
                             public void execute(@NonNull ListView listView) {
@@ -75,13 +82,14 @@ public class ListPresenterImpl extends RxBasePresenter<ListView> implements List
                         });
                     }
                 })
-                .subscribeWith(new DisposableObserver<List<Comic>>() {
+                .subscribeWith(new DisposableObserver<List<ListComic>>() {
                     @Override
-                    public void onNext(@io.reactivex.annotations.NonNull final List<Comic> comics) {
+                    public void onNext(
+                            @io.reactivex.annotations.NonNull final List<ListComic> comics) {
                         doOnViewAttached(new OnViewAttachedAction<ListView>() {
                             @Override
                             public void execute(@NonNull ListView listView) {
-                                if ( comics.isEmpty() ) {
+                                if (comics.isEmpty()) {
                                     listView.hideComics();
                                     listView.showNoComics();
                                     listView.hideNumberOfComics();
@@ -115,12 +123,12 @@ public class ListPresenterImpl extends RxBasePresenter<ListView> implements List
     }
 
     @Override
-    public void onComicClick(@NonNull final Comic comic) {
-        if ( comic.id() != null ) {
+    public void onComicClick(@NonNull final ListComic comic) {
+        if (comic.getId() != null) {
             doOnViewAttached(new OnViewAttachedAction<ListView>() {
                 @Override
                 public void execute(@NonNull ListView listView) {
-                    listView.goToDetails(comic.id());
+                    listView.goToDetails(comic.getId());
                 }
             });
         }
