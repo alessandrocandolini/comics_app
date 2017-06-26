@@ -66,10 +66,15 @@ public class ListActivity extends BaseActivity implements ListView {
 
     LinearLayoutManager layoutManager;
 
+    boolean isFirstTime = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_comics);
+        if ( savedInstanceState != null ) {
+            isFirstTime = false;
+        }
         unbinder = ButterKnife.bind(this);
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -108,7 +113,9 @@ public class ListActivity extends BaseActivity implements ListView {
     protected void onStart() {
         super.onStart();
         presenter.attach(this);
-        presenter.loadComics();
+        if ( isFirstTime ) {
+            presenter.loadComics();
+        }
     }
 
     @Override
