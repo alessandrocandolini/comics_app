@@ -2,6 +2,8 @@ package comics.com.app.presentation.list;
 
 import android.support.annotation.NonNull;
 
+import java.math.BigDecimal;
+
 import comics.com.app.domain.entities.Comic;
 
 /**
@@ -12,7 +14,7 @@ public interface ListPresenter extends comics.com.app.presentation.base.Presente
 
     void loadComics();
 
-    void refresh();
+    void refresh(@NonNull CharSequence text);
 
     void onComicClick(@NonNull ListComic comic);
 }

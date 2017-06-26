@@ -30,16 +30,23 @@ public class NonRxGetComicsFilteredByTotalAmount implements GetComicsFilteredByT
 
     @Override
     public Observable<List<Comic>> execute(@NonNull final Iterable<? extends Comic> comics, @NonNull final BigDecimal maximumAmount) {
-        return
-                Observable.fromIterable(comics)
-                        .toList()
-                        .toObservable()
-                        .map(new Function<List<Comic>, List<Comic>>() {
-                            @Override
-                            public List<Comic> apply(@io.reactivex.annotations.NonNull List<Comic> comics) throws Exception {
-                                return extractItemsByTotalAmount.filterListByTotalAmount(comics, maximumAmount);
-                            }
-                        });
+
+        if (maximumAmount.compareTo(BigDecimal.ZERO) != 0) {
+
+            return
+                    Observable.fromIterable(comics)
+                            .toList()
+                            .toObservable()
+                            .map(new Function<List<Comic>, List<Comic>>() {
+                                @Override
+                                public List<Comic> apply(@io.reactivex.annotations.NonNull List<Comic> comics) throws Exception {
+                                    return extractItemsByTotalAmount.filterListByTotalAmount(comics, maximumAmount);
+                                }
+                            });
+        } else {
+            return Observable.fromIterable(comics).toList()
+                    .toObservable();
+        }
     }
 
 

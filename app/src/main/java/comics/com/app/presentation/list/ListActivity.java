@@ -7,7 +7,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
@@ -20,7 +23,6 @@ import butterknife.Unbinder;
 import comics.com.app.BaseActivity;
 import comics.com.app.R;
 import comics.com.app.di.component.ActivityComponent;
-import comics.com.app.domain.entities.Comic;
 
 public class ListActivity extends BaseActivity implements ListView {
 
@@ -43,6 +45,18 @@ public class ListActivity extends BaseActivity implements ListView {
 
     @BindView(R.id.number_of_comics)
     TextView numberOfComicsView;
+
+    @BindView(R.id.insert_amount_error)
+    View insertAmountErrorView;
+
+    @BindView(R.id.total_amount)
+    TextView totalAmountTextView;
+
+    @BindView(R.id.total_pages)
+    TextView totalPagesTextView;
+
+    @BindView(R.id.insert_amount)
+    EditText editText;
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -69,7 +83,23 @@ public class ListActivity extends BaseActivity implements ListView {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.refresh();
+                presenter.loadComics();
+            }
+        });
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                presenter.refresh(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
@@ -179,6 +209,38 @@ public class ListActivity extends BaseActivity implements ListView {
     @Override
     public void hideNumberOfComics() {
         numberOfComicsView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showTotalAmount(@NonNull String total) {
+        totalAmountTextView.setText(total);
+        totalAmountTextView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideTotalAmount() {
+        totalAmountTextView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showNumberOfPages(@NonNull String pages) {
+        totalPagesTextView.setText(pages);
+        totalPagesTextView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideNumberOfPages() {
+        totalPagesTextView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showTotalAmountError() {
+        insertAmountErrorView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideTotalAmountError() {
+        insertAmountErrorView.setVisibility(View.GONE);
     }
 
     @Override

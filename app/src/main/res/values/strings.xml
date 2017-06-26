@@ -4,4 +4,6 @@
     <string name="generic_error">An error occur.</string>
     <string name="retry">Retry</string>
     <string name="swipe_to_refresh">Swipe to refresh</string>
+    <string name="insert_amount">Insert total amount to spend</string>
+    <string name="insert_amount_error">Please insert a valid amount</string>
 </resources>

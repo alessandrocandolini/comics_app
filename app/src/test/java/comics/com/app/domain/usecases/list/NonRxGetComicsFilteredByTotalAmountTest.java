@@ -32,10 +32,30 @@ public class NonRxGetComicsFilteredByTotalAmountTest {
     NonRxGetComicsFilteredByTotalAmount usecase;
 
     @Test
-    public void test_WhenExtractItemsByTotalAmountReturnsList_MustReturnSameList() throws Exception {
+    public void test_WhenExtractItemsByTotalAmountGreaterThanZeroReturnsList_MustReturnSameList() throws Exception {
 
         // given
         BigDecimal dummyThreshold = Mockito.mock(BigDecimal.class);
+        List<Comic> dummyList = new ArrayList<>();
+        List<Comic> fakeOutput = new ArrayList<>();
+        Mockito.doReturn(fakeOutput).when(extractItemsByTotalAmount).filterListByTotalAmount(dummyList,dummyThreshold);
+
+        // when
+        TestObserver<List<Comic>> testObserver = usecase.execute(dummyList,dummyThreshold).test();
+
+        // then
+        testObserver.assertNoErrors();
+        testObserver.assertValueCount(1);
+        testObserver.assertValue(fakeOutput);
+        testObserver.assertComplete();
+
+    }
+
+    @Test
+    public void test_WhenExtractItemsByTotalAmountEqualToZeroReturnsList_MustReturnSameList() throws Exception {
+
+        // given
+        BigDecimal dummyThreshold = BigDecimal.ZERO;
         List<Comic> dummyList = new ArrayList<>();
         List<Comic> fakeOutput = new ArrayList<>();
         Mockito.doReturn(fakeOutput).when(extractItemsByTotalAmount).filterListByTotalAmount(dummyList,dummyThreshold);

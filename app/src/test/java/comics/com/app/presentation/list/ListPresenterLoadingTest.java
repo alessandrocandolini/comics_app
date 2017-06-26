@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -11,12 +12,16 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import comics.com.app.domain.entities.Comic;
+import comics.com.app.domain.usecases.list.CalculateTotal;
+import comics.com.app.domain.usecases.list.CountPages;
 import comics.com.app.domain.usecases.list.GetComics;
+import comics.com.app.domain.usecases.list.GetComicsFilteredByTotalAmount;
 import comics.com.app.presentation.base.ScheduleOn;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
@@ -36,6 +41,15 @@ public class ListPresenterLoadingTest {
 
     @Mock
     GetComics stubGetComics;
+
+    @Mock
+    GetComicsFilteredByTotalAmount getComicsFilteredByTotalAmount;
+
+    @Mock
+    CalculateTotal calculateTotal;
+
+    @Mock
+    CountPages countPages;
 
     @Spy
     ListComicViewMapper mapper;
@@ -79,8 +93,7 @@ public class ListPresenterLoadingTest {
         int fakeDelay = 10;
         Comic fakeComic = Mockito.mock(Comic.class);
         List<Comic> fakeComics = Collections.singletonList(fakeComic);
-        Mockito.doReturn(Observable.just(fakeComics).delay(fakeDelay, TimeUnit.SECONDS))
-                .when(stubGetComics).execute();
+        Mockito.doReturn(Observable.just(fakeComics).delay(fakeDelay, TimeUnit.SECONDS)).when(stubGetComics).execute();
 
         // when
         presenter.attach(mockedView);
@@ -98,8 +111,17 @@ public class ListPresenterLoadingTest {
         int fakeDelay = 10;
         Comic fakeComic = Mockito.mock(Comic.class);
         List<Comic> fakeComics = Collections.singletonList(fakeComic);
-        Mockito.doReturn(Observable.just(fakeComics).delay(fakeDelay, TimeUnit.SECONDS))
-                .when(stubGetComics).execute();
+        ListComic fakeListComic = Mockito.mock(ListComic.class);
+        List<ListComic> fakeListComics = Collections.singletonList(fakeListComic);
+        ComicInfoDisplay fakeComicInfoDisplay = Mockito.mock(ComicInfoDisplay.class);
+        Mockito.doReturn(fakeListComics).when(fakeComicInfoDisplay).getComics();
+        Mockito.doReturn(fakeComicInfoDisplay).when(mapper).apply(ArgumentMatchers.any(ComicInfo.class));
+        Mockito.doReturn(Observable.just(fakeComics).delay(fakeDelay, TimeUnit.SECONDS)).when(stubGetComics).execute();
+
+        BigDecimal dummyTotal = Mockito.mock(BigDecimal.class);
+        Mockito.doReturn(Observable.just(fakeComics)).when(getComicsFilteredByTotalAmount).execute(ArgumentMatchers.<Comic>anyList(),ArgumentMatchers.any(BigDecimal.class));
+        Mockito.doReturn(Observable.just(dummyTotal)).when(calculateTotal).execute(fakeComics);
+        Mockito.doReturn(Observable.just(10)).when(countPages).execute(fakeComics);
 
         // when
         presenter.attach(mockedView);

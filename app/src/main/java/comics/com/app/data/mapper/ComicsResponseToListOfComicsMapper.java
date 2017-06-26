@@ -3,11 +3,13 @@ package comics.com.app.data.mapper;
 import android.support.annotation.Nullable;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import comics.com.app.data.pojo.ComicCreator;
 import comics.com.app.data.pojo.ComicOutput;
 import comics.com.app.data.pojo.ComicsResponse;
 import comics.com.app.domain.entities.Comic;
@@ -42,14 +44,47 @@ public class ComicsResponseToListOfComicsMapper implements Function<ComicsRespon
 //            private final String description;
 //            private final List<String> authors;
 
+            final Price price;
+
+            if ( comic.getPrices() != null && comic.getPrices().size() > 0 ) {
+                price = new Price() {
+                    @Nullable
+                    @Override
+                    public BigDecimal amount() {
+                        return new BigDecimal(comic.getPrices().get(0).getPrice(), MathContext.DECIMAL64);
+                    }
+
+                    @Nullable
+                    @Override
+                    public String currency() {
+                        return "£"; // hardcoced
+                    }
+                };
+            } else {
+                price = null;
+            }
+
+            final List<String> authors;
+            if (comic.getAuthors() != null && comic.getAuthors().getItems() != null && comic.getAuthors().getItems().size() > 0 ) {
+                authors = new ArrayList<>();
+                for (ComicCreator creator : comic.getAuthors().getItems()) {
+                    String name = creator.getName();
+                    if ( name != null ) {
+                        authors.add(name);
+                    }
+                }
+            } else {
+                authors = null;
+            }
+
             ComicOutput comicOutput = new ComicOutput(
                     String.valueOf(comic.getId()),
                     comic.getTitle(),
                     comic.getThumbnail().getUrl(),
                     comic.getPageCount(),
-                    null,
+                    price,
                     comic.getDescription(),
-                    null
+                    authors
             );
 
             output.add(comicOutput);

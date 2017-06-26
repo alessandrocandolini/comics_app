@@ -18,14 +18,4 @@ public interface FilterView extends LoadingView {
 
     void showFilteredList(@NonNull Comic comic); // in principle this can forward to a new page
 
-    void showTotalAmount(@NonNull String total);
-
-    void hideTotalAmount();
-
-    void showNumberOfPages(@NonNull String pages);
-
-    void hideNumberOfPages();
-
-    Observable<String> threshold();
-
 }
