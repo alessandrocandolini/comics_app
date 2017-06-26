@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">app</string>
+    <string name="no_results">No results</string>
+    <string name="generic_error">An error occur.</string>
+    <string name="retry">Retry</string>
+    <string name="swipe_to_refresh">Swipe to refresh</string>
 </resources>

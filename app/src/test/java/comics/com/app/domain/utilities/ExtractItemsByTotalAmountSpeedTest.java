@@ -18,7 +18,8 @@ import comics.com.app.domain.entities.Comic;
 import comics.com.app.domain.entities.Price;
 
 /**
- * Speed test, can be machine dependent but the set of data is such that it shoudl lead to errors if the
+ * Speed test, the actual execution team is expected to be machine-dependent but the set of data is
+ * such that it shoudl lead to errors if the
  * implementation keeps looping through all the list
  * Created by alessandro.candolini on 22/06/2017.
  */
@@ -32,7 +33,6 @@ public class ExtractItemsByTotalAmountSpeedTest {
 
     List<Comic> veryLongList;
 
-
     @Before
     public void setUp() throws Exception {
         // prepare very long list outside the test to not impact the timeout
@@ -40,7 +40,7 @@ public class ExtractItemsByTotalAmountSpeedTest {
         BigDecimal fakeAmount = BigDecimal.valueOf(5);
         Price fakePrice = Mockito.mock(Price.class);
         Mockito.doReturn(fakeAmount).when(fakePrice).amount();
-        for ( int loop = 0; loop < 10000; loop++) {
+        for (int loop = 0; loop < 10000; loop++) {
             Comic fakeComic = Mockito.mock(Comic.class);
             Mockito.doReturn(fakePrice).when(fakeComic).price();
             veryLongList.add(fakeComic);
@@ -55,7 +55,7 @@ public class ExtractItemsByTotalAmountSpeedTest {
         BigDecimal threshold = BigDecimal.valueOf(15);
 
         // when
-        List<Comic> output = extractItemsByTotalAmount.filterListByTotalAmount(veryLongList,threshold);
+        List<Comic> output = extractItemsByTotalAmount.filterListByTotalAmount(veryLongList, threshold);
 
         // then
         Assert.assertEquals(3, output.size());

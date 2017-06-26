@@ -2,8 +2,8 @@ package comics.com.app.di.component;
 
 import javax.inject.Singleton;
 
-import comics.com.app.di.module.ActivityModule;
 import comics.com.app.di.module.ApplicationModule;
+import comics.com.app.di.module.PresenterModule;
 import comics.com.app.di.module.RepositoryModule;
 import comics.com.app.di.module.ThreadModule;
 import comics.com.app.di.module.UsecaseModule;
@@ -25,6 +25,6 @@ public interface ApplicationComponent {
 
     String DAGGER_APPLICATION_COMPONENT = "ApplicationComponent";
 
-    ActivityComponent plus(ActivityModule activityModule);
+    ActivityComponent plus(PresenterModule presenterModule);
 
 }

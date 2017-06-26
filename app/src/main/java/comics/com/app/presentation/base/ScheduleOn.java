@@ -29,11 +29,11 @@ public class ScheduleOn {
     @NonNull
     private final Scheduler computation;
 
-    public ScheduleOn(@NonNull Scheduler io,
-                      @NonNull Scheduler ui,
+    public ScheduleOn(@NonNull Scheduler ui,
+                      @NonNull Scheduler io,
                       @NonNull Scheduler computation) {
-        this.io = io;
         this.ui = ui;
+        this.io = io;
         this.computation = computation;
     }
 

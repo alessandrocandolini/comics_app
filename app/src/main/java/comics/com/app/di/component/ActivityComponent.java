@@ -1,8 +1,8 @@
 package comics.com.app.di.component;
 
-import comics.com.app.di.module.ActivityModule;
 import comics.com.app.di.module.PresenterModule;
 import comics.com.app.di.scope.ActivityScope;
+import comics.com.app.presentation.list.ListActivity;
 import dagger.Subcomponent;
 
 /**
@@ -12,10 +12,11 @@ import dagger.Subcomponent;
 @ActivityScope
 @Subcomponent(
         modules = {
-                ActivityModule.class,
                 PresenterModule.class
         }
 )
 public interface ActivityComponent {
         String DAGGER_ACTIVITY_COMPONENT = "ActivityComponent";
+
+        void inject(ListActivity activity);
 }

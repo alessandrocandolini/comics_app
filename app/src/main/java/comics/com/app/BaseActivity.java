@@ -8,46 +8,55 @@ import android.support.v7.app.AppCompatActivity;
 
 import comics.com.app.di.component.ActivityComponent;
 import comics.com.app.di.component.ApplicationComponent;
-import comics.com.app.di.module.ActivityModule;
+import comics.com.app.di.module.PresenterModule;
 
-/** Base class. Provides support for dagger to inject activities*/
+/** Base class. Provides support for dagger to inject activities */
 public abstract class BaseActivity extends AppCompatActivity {
 
     /** Keep reference to the activity component */
     @Nullable
     private ActivityComponent activityComponent;
 
+    @CallSuper
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initActivityComponent();
+        activityComponent = (ActivityComponent) getLastCustomNonConfigurationInstance();
+        if (activityComponent == null) {
+            activityComponent = initActivityComponent();
+        }
         if (activityComponent != null) {
-            injectActivity(activityComponent);  // inject before super.onCreate because fragments are recreated on super.onCreate
+            injectActivity(activityComponent);  // inject before super.onCreate in case fragments are used because they are recreated on super.onCreate
         }
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
     }
 
     @Override
-    protected void onDestroy() {
-        activityComponent = null;
-        super.onDestroy();
+    public Object onRetainCustomNonConfigurationInstance() {
+        return activityComponent;
     }
 
     /**
      * This method will be implemented in the derived classes to inject them
+     *
      * @param activityComponent activity component to be used for injections
      */
     protected abstract void injectActivity(@NonNull ActivityComponent activityComponent);
 
-    private void initActivityComponent() {
+    /**
+     * Build the activity component
+     */
+    private ActivityComponent initActivityComponent() {
         ApplicationComponent applicationComponent = ((BaseApplication) getApplication()).getApplicationComponent();
         if (applicationComponent != null) {
-            activityComponent = applicationComponent.plus(new ActivityModule(this));
+            return applicationComponent.plus(new PresenterModule());
         }
+        return null;
     }
 
     /**
-     * Override method to provide a trick to access application and activity component inside custom views.
+     * Override method to provide a trick to access application and activity component inside
+     * custom
+     * views.
      * <p>
      * Another option would be to cast the getContext() method, however
      * some views can use ContextThemeWrapper to inflate child views rather than the containing

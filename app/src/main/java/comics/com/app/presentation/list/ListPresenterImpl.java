@@ -1,10 +1,9 @@
 package comics.com.app.presentation.list;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import comics.com.app.domain.entities.Comic;
 import comics.com.app.domain.usecases.list.GetComics;
@@ -18,19 +17,15 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * Created by alessandro.candolini on 22/06/2017.
  */
-
 public class ListPresenterImpl extends RxBasePresenter<ListView> implements ListPresenter {
 
     @NonNull
     private final GetComics getComics;
 
     /** Keep track of subscription */
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     DisposableObserver<List<Comic>> disposable = null;
 
-    // we choose to inject directly the presenter class, but it's easy to have a presenter module that
-    // provides the presenter interface
-
-    @Inject
     public ListPresenterImpl(@NonNull ScheduleOn scheduleOn,
                          @NonNull GetComics getComics) {
         super(scheduleOn);
@@ -62,6 +57,10 @@ public class ListPresenterImpl extends RxBasePresenter<ListView> implements List
                                 listView.showLoading();
                                 listView.hideError();
                                 listView.hideGenericError();
+                                listView.hideNoComics();
+                                listView.hideComics();
+                                listView.hideNumberOfComics();
+                                listView.hideRetry();
                             }
                         });
                     }
@@ -87,6 +86,7 @@ public class ListPresenterImpl extends RxBasePresenter<ListView> implements List
                                     listView.hideComics();
                                     listView.showNoComics();
                                     listView.hideNumberOfComics();
+                                    listView.showRetry();
                                 } else {
                                     listView.showComics(comics);
                                     listView.hideNoComics();
@@ -98,10 +98,12 @@ public class ListPresenterImpl extends RxBasePresenter<ListView> implements List
 
                     @Override
                     public void onError(@io.reactivex.annotations.NonNull Throwable e) {
+                        e.printStackTrace();
                         doOnViewAttached(new OnViewAttachedAction<ListView>() {
                             @Override
                             public void execute(@NonNull ListView listView) {
                                 listView.showGenericError();
+                                listView.showRetry();
                             }
                         });
                     }

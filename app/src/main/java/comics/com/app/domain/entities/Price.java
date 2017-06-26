@@ -15,4 +15,8 @@ public interface Price {
 
     @Nullable
     String currency();
+
+    @Nullable
+    String printPrice(); // String.format(Locale.UK, "$%.2f")
+
 }

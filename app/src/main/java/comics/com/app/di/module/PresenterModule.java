@@ -1,5 +1,7 @@
 package comics.com.app.di.module;
 
+import android.support.annotation.VisibleForTesting;
+
 import comics.com.app.domain.usecases.list.GetComics;
 import comics.com.app.presentation.base.ScheduleOn;
 import comics.com.app.presentation.list.ListPresenter;
@@ -13,8 +15,10 @@ import dagger.Provides;
 @Module
 public class PresenterModule {
 
+    //  The following methods must be declared public or protected in order DaggerMock to override it at runtime
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     @Provides
-    ListPresenter providesLoginPresenter(ScheduleOn scheduleOn,
+    public ListPresenter providesLoginPresenter(ScheduleOn scheduleOn,
                                          GetComics getComics
     ) {
         return new ListPresenterImpl(scheduleOn, getComics);
