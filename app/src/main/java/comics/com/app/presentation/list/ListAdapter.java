@@ -68,6 +68,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         holder.priceView.setText(priceString);
         Glide.with(holder.thumbNailView.getContext())
                 .load(comic.thumbnail())
+                .fitCenter()
+                .crossFade()
                 .into(holder.thumbNailView);
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override

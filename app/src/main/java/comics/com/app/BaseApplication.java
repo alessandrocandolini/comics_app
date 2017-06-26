@@ -8,6 +8,7 @@ import android.support.annotation.VisibleForTesting;
 import comics.com.app.di.component.ApplicationComponent;
 import comics.com.app.di.component.DaggerApplicationComponent;
 import comics.com.app.di.module.ApplicationModule;
+import comics.com.app.di.module.NetworkModule;
 import comics.com.app.di.module.RepositoryModule;
 import comics.com.app.di.module.ThreadModule;
 import comics.com.app.di.module.UsecaseModule;
@@ -39,6 +40,7 @@ public class BaseApplication extends Application {
                 .threadModule(new ThreadModule())
                 .usecaseModule(new UsecaseModule())
                 .utilityModule(new UtilityModule())
+                .networkModule(new NetworkModule())
                 .build();
     }
 

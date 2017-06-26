@@ -60,7 +60,6 @@ public class ListPresenterImpl extends RxBasePresenter<ListView> implements List
                                 listView.hideNoComics();
                                 listView.hideComics();
                                 listView.hideNumberOfComics();
-                                listView.hideRetry();
                             }
                         });
                     }
@@ -86,7 +85,6 @@ public class ListPresenterImpl extends RxBasePresenter<ListView> implements List
                                     listView.hideComics();
                                     listView.showNoComics();
                                     listView.hideNumberOfComics();
-                                    listView.showRetry();
                                 } else {
                                     listView.showComics(comics);
                                     listView.hideNoComics();
@@ -103,7 +101,6 @@ public class ListPresenterImpl extends RxBasePresenter<ListView> implements List
                             @Override
                             public void execute(@NonNull ListView listView) {
                                 listView.showGenericError();
-                                listView.showRetry();
                             }
                         });
                     }

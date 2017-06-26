@@ -3,6 +3,7 @@ package comics.com.app.di.component;
 import javax.inject.Singleton;
 
 import comics.com.app.di.module.ApplicationModule;
+import comics.com.app.di.module.NetworkModule;
 import comics.com.app.di.module.PresenterModule;
 import comics.com.app.di.module.RepositoryModule;
 import comics.com.app.di.module.ThreadModule;
@@ -19,6 +20,7 @@ import dagger.Component;
         RepositoryModule.class,
         UsecaseModule.class,
         ThreadModule.class,
+        NetworkModule.class,
         UtilityModule.class
 })
 public interface ApplicationComponent {
