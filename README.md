@@ -6,16 +6,40 @@ Sample app for loading list of comics consuming marven apis
 
 ## Architecture
 
-Clean architecture with MVP pattern for presentation layer (slightly modified to make it compatible with Android lifecycles).
+3-layer clean architecture with MVP pattern for presentation layer. 
 
-Clean is a layered architecture with a dependency rule that puts business rules (the logic) at the core.  
-In comparison. more traditional layered architectures are more datacentric.
-The basic idea is an old one (see for example Jacobson's usecase driven approach to object oriented software engineering), it has been recently popularise/revamped by Robert (uncle bob) Martin. 
+Clean is a standard layered architecture with a specific dependency rule that puts business rules (the logic) at the core of the architecture. View and data layers are "plugins" for the business layer.   
+In comparison, traditional layered architectures often are more datacentric, starting from data (network, database) and proceeding towards view layer.
+The basic idea of clean architecture is an old one (see for example Jacobson's usecase driven approach to object oriented software engineering), it has been recently popularise/revamped by Robert (uncle bob) Martin. 
+ 
 
-Three layers:
-* Domain layer: business rules. The behaviour/logic of the app is 100% implemented here. This is a pure Java package. It is the first layer that has been implemented (before view and data, below). It has been developed using TDD and it's mostly completed covered by unit tests (and few integration tests and one speed test for illustration purpose). 
-* View layer: presentation logic. Here we follow MVP pattern with passive view, two-way communication between presenter and view. Presenters are pure java code and unit tested. Views are defined as interfaces and implemented using android activities (this is the only place that contains android code). Few espresso tests are provided but not attempt has been made to do TDD on the views. 
-* Data layer: the last layer implemented. It contains network requests and, in principle, cache (not implemented yet). We follow repository pattern (in preparation for cache). Repository interface is defined in the business logic, but the actual implementation is responsibility of the data layer. 
+### Domain layer: business rules
+
+The behaviour/logic of the app is implemented here.
+It's a pure java package, no android component is used here. 
+It is the first layer that has been implemented (before view and data, below). 
+It has been developed using TDD and it's mostly completed covered by unit tests (and few integration tests and one speed test for illustration purpose)
+
+Specific behaviour is achieved by implementing usecases and chain them when appropriate. 
+
+### View layer
+
+Here I follow MVP pattern with passive view.  
+THe pattern is slightly modified to accomodate the android requirements; in particular, the presenter exposes methods to attach/detach a view. This is because the view can become "invalid" during screen rotation/configuration changes. 
+
+View is defined with as a pure java interface with methods to show/hide information. 
+Presenters are pure java code and unit tested. They take care of the logic of the view and how to update information on the view in response of usecases. 
+Show/hide methods uses plain java types (strings mainly).
+Presenter keeps a reference to the view (while the view is attached) and can trigger its methods in response to usecases. 
+
+
+Actual implementation of the view is done in the activities and that is the only part of the code that contains android methods.
+
+Few espresso tests are provided but not attempt has been made to do TDD on the views. 
+
+### Data layer 
+
+The last layer implemented. Pure java layer, it contains network requests and, in principle, cache (not implemented yet). We follow repository pattern (in preparation for cache). Repository interface is defined in the business logic, but the actual implementation is responsibility of the data layer. 
 
 
 ## Pipeline
