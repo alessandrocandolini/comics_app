@@ -1,32 +1,19 @@
 package comics.com.app.presentation.list;
 
-import android.app.Activity;
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import comics.com.app.EspressoDaggerRule;
 import comics.com.app.R;
-import comics.com.app.di.component.ActivityComponent;
-import comics.com.app.di.module.PresenterModule;
-import comics.com.app.domain.entities.Comic;
-import io.reactivex.Observable;
-import it.cosenonjaviste.daggermock.DaggerMockRule;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -95,10 +82,10 @@ public class ListActivityTest {
     public void test_WhenShowingResults_MustDisplayResults() {
 
         // given
-        ListComic fakeComic = Mockito.mock(ListComic.class);
+        ViewComic fakeComic = Mockito.mock(ViewComic.class);
         String fakeTitle = "frrwewe2";
         Mockito.doReturn(fakeTitle).when(fakeComic).getTitle();
-        final List<ListComic> fakeComics = Collections.singletonList(fakeComic);
+        final List<ViewComic> fakeComics = Collections.singletonList(fakeComic);
 
         activityTestRule.launchActivity(null);
 

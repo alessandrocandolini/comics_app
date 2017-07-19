@@ -1,5 +1,6 @@
 package comics.com.app.presentation.list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -23,6 +26,7 @@ import butterknife.Unbinder;
 import comics.com.app.BaseActivity;
 import comics.com.app.R;
 import comics.com.app.di.component.ActivityComponent;
+import comics.com.app.presentation.details.DetailActivity;
 
 public class ListActivity extends BaseActivity implements ListView {
 
@@ -81,7 +85,7 @@ public class ListActivity extends BaseActivity implements ListView {
         recyclerView.setAdapter(adapter);
         adapter.setClickListener(new ListAdapter.ClickListener() {
             @Override
-            public void onClick(@NonNull final ListComic comic) {
+            public void onClick(@NonNull final ViewComic comic) {
                 presenter.onComicClick(comic);
             }
         });
@@ -197,7 +201,7 @@ public class ListActivity extends BaseActivity implements ListView {
     }
 
     @Override
-    public void showComics(@NonNull List<ListComic> comics) {
+    public void showComics(@NonNull List<ViewComic> comics) {
         recyclerView.setVisibility(View.VISIBLE);
         adapter.setComics(comics);
     }
@@ -251,7 +255,9 @@ public class ListActivity extends BaseActivity implements ListView {
     }
 
     @Override
-    public void goToDetails(@NonNull String comicId) {
-
+    public void goToDetails(@NonNull ViewComic viewComic) {
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra(DetailActivity.BUNDLE_COMIC, Parcels.wrap(viewComic));
+        startActivity(intent);
     }
 }
