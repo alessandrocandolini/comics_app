@@ -36,8 +36,9 @@ public class PresenterModule {
         return new ListPresenterImpl(scheduleOn, getComics,listComicViewMapper,calculateTotal,maxiMaxListOfComincsWithGivenAmount,countPages);
     }
 
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     @Provides
-    DetailPresenter providesDetailPresenter(@NonNull ScheduleOn scheduleOn,
+    public DetailPresenter providesDetailPresenter(@NonNull ScheduleOn scheduleOn,
                                            @NonNull GetComics getComics,
                                            @NonNull ListComicViewMapper listComicViewMapper,
                                            @NonNull CalculateTotal calculateTotal,
