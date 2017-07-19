@@ -1,9 +1,6 @@
 package comics.com.app.presentation.list;
 
-import java.math.BigDecimal;
 import java.util.List;
-
-import comics.com.app.domain.entities.Comic;
 
 /**
  * Created by alessandro.candolini on 26/06/2017.
@@ -13,7 +10,7 @@ public class ComicInfoDisplay {
 
     private String totalAmount;
     private String totalPages;
-    private List<ListComic> comics;
+    private List<ViewComic> comics;
 
     public String getTotalAmount() {
         return totalAmount;
@@ -31,11 +28,11 @@ public class ComicInfoDisplay {
         this.totalPages = totalPages;
     }
 
-    public List<ListComic> getComics() {
+    public List<ViewComic> getComics() {
         return comics;
     }
 
-    public void setComics(List<ListComic> comics) {
+    public void setComics(List<ViewComic> comics) {
         this.comics = comics;
     }
 }

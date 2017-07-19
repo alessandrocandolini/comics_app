@@ -91,4 +91,27 @@ public class RxCalculateTotalTest {
 
     }
 
+    @Test
+    public void test_WhenAllComicsHaveNoPrice_MustReturnZero() throws Exception {
+
+        // given
+
+        Comic fakeComic1 = Mockito.mock(Comic.class);
+        Comic fakeComic2 = Mockito.mock(Comic.class);
+
+        List<Comic> list = new ArrayList<>();
+        list.add(fakeComic1);
+        list.add(fakeComic2);
+
+        // when
+        TestObserver<BigDecimal> testObserver = usecase.execute(list).test();
+
+        // then
+        testObserver.assertNoErrors();
+        testObserver.assertValueCount(1);
+        testObserver.assertValue(BigDecimal.ZERO);
+        testObserver.assertComplete();
+
+    }
+
 }

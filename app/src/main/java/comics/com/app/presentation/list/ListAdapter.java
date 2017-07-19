@@ -26,7 +26,7 @@ import comics.com.app.R;
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     @Nullable
-    private List<ListComic> comics;
+    private List<ViewComic> comics;
 
     @Nullable
     private ClickListener clickListener;
@@ -39,7 +39,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         this.clickListener = clickListener;
     }
 
-    public void setComics(@Nullable List<ListComic> comics) {
+    public void setComics(@Nullable List<ViewComic> comics) {
         this.comics = comics;
         notifyDataSetChanged();
     }
@@ -52,7 +52,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final ListComic comic = comics.get(position);
+        final ViewComic comic = comics.get(position);
         holder.titleView.setText(comic.getTitle());
 //        final String priceString;
 //        final Price price = comic.price();
@@ -106,7 +106,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     }
 
     public interface ClickListener {
-        void onClick(@NonNull ListComic comic);
+        void onClick(@NonNull ViewComic comic);
     }
 
 }

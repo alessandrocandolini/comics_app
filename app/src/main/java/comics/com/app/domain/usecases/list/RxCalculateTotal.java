@@ -11,8 +11,9 @@ import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 
 /**
- * functional-flavoured implementation of {@link CalculateTotal}.
- * For an imperative approach, it is possible to rely on {@link comics.com.app.domain.utilities.TotalPriceCalculator}
+ * Functional-flavoured implementation of {@link CalculateTotal}.
+ * For a more imperative approach, have a look at {@link comics.com.app.domain.utilities.TotalPriceCalculator}.
+ * You can swipe the two implementations by changing the provider method in {@link comics.com.app.di.module.UsecaseModule}
  * Created by alessandro.candolini on 22/06/2017.
  */
 
@@ -21,7 +22,7 @@ public class RxCalculateTotal implements CalculateTotal {
     @Override
     public Observable<BigDecimal> execute(@NonNull final Iterable<? extends Comic> comics) {
         return Observable.fromIterable(comics)
-                .filter(new Predicate<Comic>() {
+                .filter(new Predicate<Comic>() { // strip comics with no price
                     @Override
                     public boolean test(@io.reactivex.annotations.NonNull Comic comic) throws Exception {
                         return comic.price() != null && comic.price().amount() != null;
@@ -29,13 +30,13 @@ public class RxCalculateTotal implements CalculateTotal {
                 })
                 .map(new Function<Comic, BigDecimal>() {
                     @Override
-                    public BigDecimal apply(@io.reactivex.annotations.NonNull Comic comic) throws Exception {
+                    public BigDecimal apply(@io.reactivex.annotations.NonNull Comic comic) throws Exception { // map stream of comics to stream of their amount
                         return comic.price().amount();
                     }
                 })
                 .reduce(BigDecimal.ZERO, new BiFunction<BigDecimal, BigDecimal, BigDecimal>() {
                     @Override
-                    public BigDecimal apply(@io.reactivex.annotations.NonNull BigDecimal amount1, @io.reactivex.annotations.NonNull BigDecimal amount2) throws Exception {
+                    public BigDecimal apply(@io.reactivex.annotations.NonNull BigDecimal amount1, @io.reactivex.annotations.NonNull BigDecimal amount2) throws Exception { // accumulate total
                         return amount1.add(amount2);
                     }
                 })
