@@ -80,5 +80,13 @@ Sometimes we provided two implementations of the same usecase in the business lo
 ## TODO
 
 Lot of things!! 
-Improve test coverage, refactoring and code cleanup of latest additions to the code (for example the list presenter is doing part of the business logic). 
+
+here is (not comprehensive) list:
+* Improve test coverage
+* refactoring and code cleanup of latest additions to the code (for example the list presenter is doing part of the business logic; modularize in a better way the filter and list UI, at the moment they are done in the same view, but actually can be two different view interfaces, etc..)
+* try the latest approach (dagger 2.10/2.11) for injection in android projects 
+* add offline support
+* improve UI
+* etc etc 
+
 
