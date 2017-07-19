@@ -2,9 +2,12 @@ package comics.com.app.presentation.list;
 
 import android.support.annotation.NonNull;
 
+import com.jakewharton.rxbinding2.InitialValueObservable;
+
 import java.util.List;
 
 import comics.com.app.presentation.base.LoadingView;
+import io.reactivex.Observable;
 
 /**
  * View showing list of comics
@@ -17,7 +20,7 @@ public interface ListView extends LoadingView {
 
     void hideNoComics();
 
-    void showComics(@NonNull List<ViewComic> comics);
+    void showComics(@NonNull List<ListComic> comics);
 
     void hideComics();
 
@@ -37,5 +40,5 @@ public interface ListView extends LoadingView {
 
     void hideTotalAmountError();
 
-    void goToDetails(@NonNull ViewComic viewComic);
+    void goToDetails(@NonNull String comicId);
 }

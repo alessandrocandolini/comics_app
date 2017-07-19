@@ -3,15 +3,17 @@ package comics.com.app.presentation.list;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import comics.com.app.domain.entities.Comic;
 import comics.com.app.domain.usecases.list.CalculateTotal;
 import comics.com.app.domain.usecases.list.CountPages;
 import comics.com.app.domain.usecases.list.GetComics;
-import comics.com.app.domain.usecases.list.MaxListOfComincsWithGivenAmount;
+import comics.com.app.domain.usecases.list.GetComicsFilteredByTotalAmount;
 import comics.com.app.presentation.base.RxBasePresenter;
 import comics.com.app.presentation.base.ScheduleOn;
 import io.reactivex.Observable;
@@ -32,7 +34,7 @@ public class ListPresenterImpl extends RxBasePresenter<ListView> implements List
     private final GetComics getComics;
 
     @NonNull
-    private final MaxListOfComincsWithGivenAmount maxListOfComincsWithGivenAmount;
+    private final GetComicsFilteredByTotalAmount getComicsFilteredByTotalAmount;
 
     @NonNull
     private final CalculateTotal calculateTotal;
@@ -56,13 +58,13 @@ public class ListPresenterImpl extends RxBasePresenter<ListView> implements List
                              @NonNull GetComics getComics,
                              @NonNull ListComicViewMapper listComicViewMapper,
                              @NonNull CalculateTotal calculateTotal,
-                             @NonNull MaxListOfComincsWithGivenAmount maxListOfComincsWithGivenAmount,
+                             @NonNull GetComicsFilteredByTotalAmount getComicsFilteredByTotalAmount,
                              @NonNull CountPages countPages
     ) {
         super(scheduleOn);
         this.getComics = getComics;
         this.listComicViewMapper = listComicViewMapper;
-        this.maxListOfComincsWithGivenAmount = maxListOfComincsWithGivenAmount;
+        this.getComicsFilteredByTotalAmount = getComicsFilteredByTotalAmount;
         this.calculateTotal = calculateTotal;
         this.countPages = countPages;
     }
@@ -106,7 +108,7 @@ public class ListPresenterImpl extends RxBasePresenter<ListView> implements List
             }
         });
         String value = text.toString();
-        if (value.isEmpty()) {
+        if ( value.isEmpty()) {
             refresh(BigDecimal.ZERO);
         } else {
             try {
@@ -132,14 +134,13 @@ public class ListPresenterImpl extends RxBasePresenter<ListView> implements List
         }
 
         disposable = getListComics()
-                // TODO move this chain into a usecase
                 // filter by total
                 // calculate total and pages
                 // format for the screen
                 .flatMap(new Function<List<Comic>, ObservableSource<List<Comic>>>() {
                     @Override
                     public ObservableSource<List<Comic>> apply(@io.reactivex.annotations.NonNull final List<Comic> comics) throws Exception {
-                        return maxListOfComincsWithGivenAmount.execute(comics, maximumAmount);
+                        return getComicsFilteredByTotalAmount.execute(comics, maximumAmount);
                     }
                 })
                 .flatMap(new Function<List<Comic>, ObservableSource<ComicInfo>>() {
@@ -214,7 +215,7 @@ public class ListPresenterImpl extends RxBasePresenter<ListView> implements List
                         doOnViewAttached(new OnViewAttachedAction<ListView>() {
                             @Override
                             public void execute(@NonNull ListView listView) {
-                                List<ViewComic> comics = comicInfoDisplay.getComics();
+                                List<ListComic> comics = comicInfoDisplay.getComics();
                                 if (comics != null && !comics.isEmpty()) {
                                     listView.showComics(comics);
                                     listView.hideNoComics();
@@ -253,12 +254,14 @@ public class ListPresenterImpl extends RxBasePresenter<ListView> implements List
     }
 
     @Override
-    public void onComicClick(@NonNull final ViewComic comic) {
-        doOnViewAttached(new OnViewAttachedAction<ListView>() {
-            @Override
-            public void execute(@NonNull ListView listView) {
-                listView.goToDetails(comic);
-            }
-        });
+    public void onComicClick(@NonNull final ListComic comic) {
+        if (comic.getId() != null) {
+            doOnViewAttached(new OnViewAttachedAction<ListView>() {
+                @Override
+                public void execute(@NonNull ListView listView) {
+                    listView.goToDetails(comic.getId());
+                }
+            });
+        }
     }
 }

@@ -23,22 +23,8 @@ import io.reactivex.functions.Function;
 
 public class ComicsResponseToListOfComicsMapper implements Function<ComicsResponse, List<Comic>> {
 
-    @android.support.annotation.NonNull
-    private final AuthorsMapper authorsMapper;
-
-    @android.support.annotation.NonNull
-    private final ThumbnailMapper thumbnailMapper;
-
-    @android.support.annotation.NonNull
-    private final PriceMapper priceMapper;
-
     @Inject
-    public ComicsResponseToListOfComicsMapper(@android.support.annotation.NonNull AuthorsMapper authorsMapper,
-                                         @android.support.annotation.NonNull ThumbnailMapper thumbnailMapper,
-                                         @android.support.annotation.NonNull PriceMapper priceMapper) {
-        this.authorsMapper = authorsMapper;
-        this.thumbnailMapper = thumbnailMapper;
-        this.priceMapper = priceMapper;
+    public ComicsResponseToListOfComicsMapper() {
     }
 
     @Override
@@ -50,22 +36,51 @@ public class ComicsResponseToListOfComicsMapper implements Function<ComicsRespon
 
         for (final comics.com.app.data.pojo.Comic comic : comics) {
 
-            Price price = null;
+//            private final String id;
+//            private final String title;
+//            private final String thumbnail;
+//            private final int pageCount;
+//            private final Price price;
+//            private final String description;
+//            private final List<String> authors;
+
+            final Price price;
+
             if ( comic.getPrices() != null && comic.getPrices().size() > 0 ) {
-                price = priceMapper.convert(comic.getPrices().get(0));
+                price = new Price() {
+                    @Nullable
+                    @Override
+                    public BigDecimal amount() {
+                        return new BigDecimal(comic.getPrices().get(0).getPrice(), MathContext.DECIMAL64);
+                    }
+
+                    @Nullable
+                    @Override
+                    public String currency() {
+                        return "£"; // hardcoced
+                    }
+                };
+            } else {
+                price = null;
             }
 
-            List<String> authors = null;
-            if ( comic.getAuthors() != null ) {
-                authors = authorsMapper.convert(comic.getAuthors());
+            final List<String> authors;
+            if (comic.getAuthors() != null && comic.getAuthors().getItems() != null && comic.getAuthors().getItems().size() > 0 ) {
+                authors = new ArrayList<>();
+                for (ComicCreator creator : comic.getAuthors().getItems()) {
+                    String name = creator.getName();
+                    if ( name != null ) {
+                        authors.add(name);
+                    }
+                }
+            } else {
+                authors = null;
             }
-
-            String thumbnail = thumbnailMapper.convert(comic.getThumbnail());
 
             ComicOutput comicOutput = new ComicOutput(
                     String.valueOf(comic.getId()),
                     comic.getTitle(),
-                    thumbnail,
+                    comic.getThumbnail().getUrl(),
                     comic.getPageCount(),
                     price,
                     comic.getDescription(),

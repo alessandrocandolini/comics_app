@@ -2,7 +2,6 @@ package comics.com.app.di.component;
 
 import comics.com.app.di.module.PresenterModule;
 import comics.com.app.di.scope.ActivityScope;
-import comics.com.app.presentation.details.DetailActivity;
 import comics.com.app.presentation.list.ListActivity;
 import dagger.Subcomponent;
 
@@ -17,9 +16,7 @@ import dagger.Subcomponent;
         }
 )
 public interface ActivityComponent {
-    String DAGGER_ACTIVITY_COMPONENT = "ActivityComponent";
+        String DAGGER_ACTIVITY_COMPONENT = "ActivityComponent";
 
-    void inject(ListActivity activity);
-
-    void inject(DetailActivity detailActivity);
+        void inject(ListActivity activity);
 }

@@ -18,7 +18,7 @@ import comics.com.app.domain.entities.Comic;
 import comics.com.app.domain.entities.Price;
 
 /**
- * Speed test, the actual execution time is expected to be machine-dependent but the set of data is
+ * Speed test, the actual execution team is expected to be machine-dependent but the set of data is
  * such that it shoudl lead to errors if the
  * implementation keeps looping through all the list
  * Created by alessandro.candolini on 22/06/2017.

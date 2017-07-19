@@ -30,20 +30,18 @@ public class ListComicViewMapper implements Function<ComicInfo, ComicInfoDisplay
 
         if (comicInfo.getComics() != null) {
 
-            List<ViewComic> output = new ArrayList<>();
+            List<ListComic> output = new ArrayList<>();
             for (Comic comic : comicInfo.getComics()) {
-                ViewComic viewComic = new ViewComic();
-                viewComic.setId(comic.id());
-                viewComic.setTitle(comic.title());
-                viewComic.setThumbnail(comic.thumbnail());
-                viewComic.setAuthors(comic.authors());
-                viewComic.setDescription(comic.description());
+                ListComic listComic = new ListComic();
+                listComic.setId(comic.id());
+                listComic.setTitle(comic.title());
+                listComic.setThumbnail(comic.thumbnail());
                 final Price price = comic.price();
                 if ( price != null ) {
                     final BigDecimal amount = price.amount();
-                    viewComic.setPrice(printPrice(amount));
+                    listComic.setPrice(printPrice(amount));
                 }
-                output.add(viewComic);
+                output.add(listComic);
             }
             comicInfoDisplay.setComics(output);
         }

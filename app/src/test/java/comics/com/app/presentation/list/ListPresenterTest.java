@@ -1,5 +1,8 @@
 package comics.com.app.presentation.list;
 
+import android.support.annotation.NonNull;
+
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
@@ -18,7 +21,7 @@ import comics.com.app.domain.entities.Comic;
 import comics.com.app.domain.usecases.list.CalculateTotal;
 import comics.com.app.domain.usecases.list.CountPages;
 import comics.com.app.domain.usecases.list.GetComics;
-import comics.com.app.domain.usecases.list.MaxListOfComincsWithGivenAmount;
+import comics.com.app.domain.usecases.list.GetComicsFilteredByTotalAmount;
 import comics.com.app.presentation.base.ScheduleOn;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
@@ -35,7 +38,7 @@ public class ListPresenterTest {
     GetComics stubGetComics;
 
     @Mock
-    MaxListOfComincsWithGivenAmount maxListOfComincsWithGivenAmount;
+    GetComicsFilteredByTotalAmount getComicsFilteredByTotalAmount;
 
     @Mock
     CalculateTotal calculateTotal;
@@ -66,15 +69,15 @@ public class ListPresenterTest {
 
         Comic fakeComic = Mockito.mock(Comic.class);
         List<Comic> fakeComics = Collections.singletonList(fakeComic);
-        ViewComic fakeViewComic = Mockito.mock(ViewComic.class);
-        List<ViewComic> fakeViewComics = Collections.singletonList(fakeViewComic);
+        ListComic fakeListComic = Mockito.mock(ListComic.class);
+        List<ListComic> fakeListComics = Collections.singletonList(fakeListComic);
         ComicInfoDisplay fakeComicInfoDisplay = Mockito.mock(ComicInfoDisplay.class);
-        Mockito.doReturn(fakeViewComics).when(fakeComicInfoDisplay).getComics();
+        Mockito.doReturn(fakeListComics).when(fakeComicInfoDisplay).getComics();
         Mockito.doReturn(fakeComicInfoDisplay).when(mapper).apply(ArgumentMatchers.any(ComicInfo.class));
         Mockito.doReturn(Observable.just(fakeComics)).when(stubGetComics).execute();
 
         BigDecimal dummyTotal = Mockito.mock(BigDecimal.class);
-        Mockito.doReturn(Observable.just(fakeComics)).when(maxListOfComincsWithGivenAmount).execute(ArgumentMatchers.<Comic>anyList(),ArgumentMatchers.any(BigDecimal.class));
+        Mockito.doReturn(Observable.just(fakeComics)).when(getComicsFilteredByTotalAmount).execute(ArgumentMatchers.<Comic>anyList(),ArgumentMatchers.any(BigDecimal.class));
         Mockito.doReturn(Observable.just(dummyTotal)).when(calculateTotal).execute(fakeComics);
         Mockito.doReturn(Observable.just(10)).when(countPages).execute(fakeComics);
 
@@ -83,7 +86,7 @@ public class ListPresenterTest {
         presenter.loadComics();
 
         // then
-        Mockito.verify(mockedView, Mockito.times(1)).showComics(fakeViewComics);
+        Mockito.verify(mockedView, Mockito.times(1)).showComics(fakeListComics);
         Mockito.verify(mockedView, Mockito.times(0)).showGenericError();
         Mockito.verify(mockedView, Mockito.times(0)).showNoComics();
         Mockito.verify(mockedView, Mockito.times(0)).showError(ArgumentMatchers.anyString());
@@ -97,7 +100,7 @@ public class ListPresenterTest {
         Mockito.doReturn(Observable.just(fakeComics)).when(stubGetComics).execute();
 
         BigDecimal dummyTotal = Mockito.mock(BigDecimal.class);
-        Mockito.doReturn(Observable.just(fakeComics)).when(maxListOfComincsWithGivenAmount).execute(ArgumentMatchers.<Comic>anyList(),ArgumentMatchers.any(BigDecimal.class));
+        Mockito.doReturn(Observable.just(fakeComics)).when(getComicsFilteredByTotalAmount).execute(ArgumentMatchers.<Comic>anyList(),ArgumentMatchers.any(BigDecimal.class));
         Mockito.doReturn(Observable.just(dummyTotal)).when(calculateTotal).execute(fakeComics);
         Mockito.doReturn(Observable.just(10)).when(countPages).execute(fakeComics);
 
@@ -106,7 +109,7 @@ public class ListPresenterTest {
         presenter.loadComics();
 
         // then
-        Mockito.verify(mockedView, Mockito.times(0)).showComics(ArgumentMatchers.<ViewComic>anyList());
+        Mockito.verify(mockedView, Mockito.times(0)).showComics(ArgumentMatchers.<ListComic>anyList());
         Mockito.verify(mockedView, Mockito.times(0)).showGenericError();
         Mockito.verify(mockedView, Mockito.times(1)).showNoComics();
         Mockito.verify(mockedView, Mockito.times(0)).showError(ArgumentMatchers.anyString());
@@ -124,7 +127,7 @@ public class ListPresenterTest {
         presenter.loadComics();
 
         // then
-        Mockito.verify(mockedView, Mockito.times(0)).showComics(ArgumentMatchers.<ViewComic>anyList());
+        Mockito.verify(mockedView, Mockito.times(0)).showComics(ArgumentMatchers.<ListComic>anyList());
         Mockito.verify(mockedView, Mockito.times(1)).showGenericError();
         Mockito.verify(mockedView, Mockito.times(0)).showNoComics();
         Mockito.verify(mockedView, Mockito.times(0)).showError(ArgumentMatchers.anyString());

@@ -2,5 +2,4 @@
 <resources>
     <dimen name="item_image_size">80dp</dimen>
     <dimen name="default_margin">1dp</dimen>
-    <dimen name="detail_image_size">150dp</dimen>
 </resources>
